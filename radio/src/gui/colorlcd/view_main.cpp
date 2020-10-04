@@ -162,6 +162,7 @@ ViewMain::ViewMain(bool icons):
                      return 0;
                  }, NO_FOCUS);
 #endif
+
   focusWindow = this;
 }
 
@@ -239,7 +240,9 @@ void ViewMain::openMenu()
 void ViewMain::checkEvents()
 {
   FormWindow::checkEvents();
+#if defined(DEBUG_WINDOWS)
   TRACE("focus = %s", focusWindow ? focusWindow->getWindowDebugString().c_str() : "---");
+#endif
 }
 
 void ViewMain::paint(BitmapBuffer * dc)

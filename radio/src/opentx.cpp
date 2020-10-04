@@ -721,6 +721,7 @@ void checkBacklight()
         BACKLIGHT_DISABLE();
       }
     }
+  }
 }
 
 void resetBacklightTimeout()

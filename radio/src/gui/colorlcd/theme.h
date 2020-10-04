@@ -98,6 +98,8 @@ class OpenTxTheme: public Theme
 
     void drawSlider(BitmapBuffer * dc, int vmin, int vmax, int value, const rect_t & rect, bool edit, bool focus) const override;
 
+    virtual void drawTopLeftBitmap(BitmapBuffer * dc) const = 0;
+
   protected:
     const char * name;
     const ZoneOption * options;
