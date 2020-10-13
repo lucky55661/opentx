@@ -40,10 +40,11 @@ const ZoneOption OPTIONS_LAYOUT_4P2[] = {
   { NULL, ZoneOption::Bool }
 };
 
-constexpr coord_t HTRIM_W = 120;
-constexpr coord_t HTRIM_H = 40;
-constexpr coord_t HSLIDER_W = 120;
-constexpr coord_t HSLIDER_H = 40;
+constexpr coord_t HTRIM_W = 200;
+constexpr coord_t HTRIM_H = 30;
+constexpr coord_t HMARGIN = 5;
+constexpr coord_t HSLIDER_W = 180;
+constexpr coord_t HSLIDER_H = 20;
 
 class Layout4P2: public Layout
 {
@@ -75,8 +76,8 @@ class Layout4P2: public Layout
     void decorate()
     {
       if (1 /*HAS_SLIDERS()*/) {
-        new MainViewHorizontalSlider(this, {0, LCD_H - HTRIM_H - 1, HTRIM_W, HSLIDER_H}, [=] { return calibratedAnalogs[CALIBRATED_POT1]; }, OPTION_SLIDER_TICKS | OPTION_SLIDER_BIG_TICKS | OPTION_SLIDER_SQUARE_BUTTON);
-        new MainViewHorizontalSlider(this, {LCD_W - HTRIM_W, LCD_H - HTRIM_H, HTRIM_W, HSLIDER_H}, [=] { return calibratedAnalogs[CALIBRATED_POT3]; }, OPTION_SLIDER_TICKS | OPTION_SLIDER_BIG_TICKS | OPTION_SLIDER_SQUARE_BUTTON);
+        new MainViewHorizontalSlider(this, {HMARGIN, LCD_H - HSLIDER_H, HSLIDER_W + 1, HSLIDER_H}, [=] { return calibratedAnalogs[CALIBRATED_POT1]; }, OPTION_SLIDER_TICKS | OPTION_SLIDER_BIG_TICKS | OPTION_SLIDER_SQUARE_BUTTON);
+        new MainViewHorizontalSlider(this, {LCD_W - HSLIDER_W - HMARGIN, LCD_H - HSLIDER_H, HSLIDER_W + 1, HSLIDER_H}, [=] { return calibratedAnalogs[CALIBRATED_POT3]; }, OPTION_SLIDER_TICKS | OPTION_SLIDER_BIG_TICKS | OPTION_SLIDER_SQUARE_BUTTON);
       }
     }
 

@@ -746,7 +746,7 @@ class ModuleWindow : public FormGroup {
         });
 
         // Module power
-        grid.nextLine();
+        grid.nextLine() ;
         new StaticText(this, grid.getLabelSlot(true), STR_RF_POWER);
         new Choice(this, grid.getFieldSlot(2, 0), STR_AFHDS3_POWERS, afhds3::RUN_POWER::RUN_POWER_FIRST, afhds3::RUN_POWER::RUN_POWER_LAST,
                     GET_SET_DEFAULT(g_model.moduleData[moduleIdx].afhds3.runPower));

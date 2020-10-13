@@ -115,15 +115,15 @@ void drawVerticalSlider(BitmapBuffer * dc, coord_t x, coord_t y, int len, int va
   }
 }
 
-void drawHorizontalSlider(BitmapBuffer * dc, coord_t x, coord_t y, int len, int val, int min, int max, uint8_t steps, uint32_t options)
+void drawHorizontalSlider(BitmapBuffer * dc, coord_t x, coord_t y, int width, int val, int min, int max, uint8_t steps, uint32_t options)
 {
   val = limit(min, val, max);
-  int w = divRoundClosest(len * (val - min), max - min);
+  int w = divRoundClosest(width * (val - min), max - min);
   if (options & OPTION_SLIDER_TICKS) {
     if (steps) {
-      int delta = len / steps;
-      for (int i = 0; i <= len; i += delta) {
-        if ((options & OPTION_SLIDER_BIG_TICKS) && (i == 0 || i == len / 2 || i == len))
+      int delta = width / steps;
+      for (int i = 0; i < width; i += delta) {
+        if ((options & OPTION_SLIDER_BIG_TICKS) && ((i == 0) || (i == width / 2) || (i == (width - 1))))
           dc->drawSolidVerticalLine(x + i, y, 13, DEFAULT_COLOR);
         else
           dc->drawSolidVerticalLine(x + i, y + 2, 9, DEFAULT_COLOR);
@@ -137,14 +137,14 @@ void drawHorizontalSlider(BitmapBuffer * dc, coord_t x, coord_t y, int len, int 
     dc->drawBitmapPattern(x, y + 8, LBM_SLIDER_BAR_LEFT, w <= 0 ? LINE_COLOR : FOCUS_BGCOLOR);
     if (w > 4)
       dc->drawSolidFilledRect(x + 4, y + 8, w - 4, 4, FOCUS_BGCOLOR);
-    if (w < len - 4)
-      dc->drawSolidFilledRect(x + w, y + 8, len - w - 4, 4, LINE_COLOR);
-    dc->drawBitmapPattern(x + len - 4, y + 8, LBM_SLIDER_BAR_RIGHT, w >= len ? FOCUS_BGCOLOR : LINE_COLOR);
+    if (w < width - 4)
+      dc->drawSolidFilledRect(x + w, y + 8, width - w - 4, 4, LINE_COLOR);
+    dc->drawBitmapPattern(x + width - 4, y + 8, LBM_SLIDER_BAR_RIGHT, w >= width ? FOCUS_BGCOLOR : LINE_COLOR);
   }
   else {
     dc->drawBitmapPattern(x, y + 8, LBM_SLIDER_BAR_LEFT, LINE_COLOR);
-    dc->drawSolidFilledRect(x + 4, y + 8, len - 8, 4, LINE_COLOR);
-    dc->drawBitmapPattern(x + len - 4, y + 8, LBM_SLIDER_BAR_RIGHT, LINE_COLOR);
+    dc->drawSolidFilledRect(x + 4, y + 8, width - 8, 4, LINE_COLOR);
+    dc->drawBitmapPattern(x + width - 4, y + 8, LBM_SLIDER_BAR_RIGHT, LINE_COLOR);
     //
     /* if (g_model.displayTrims != DISPLAY_TRIMS_NEVER && trim != 0) {
       if (g_model.displayTrims == DISPLAY_TRIMS_ALWAYS || (trimsDisplayTimer > 0 && (trimsDisplayMask & (1<<i)))) {

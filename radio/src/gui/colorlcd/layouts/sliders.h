@@ -25,7 +25,7 @@
 class MainViewSlider : public Window
 {
   public:
-    MainViewSlider(Window * parent, const rect_t & rect, std::function<int8_t()> getValue, uint32_t options):
+    MainViewSlider(Window * parent, const rect_t & rect, std::function<int16_t()> getValue, uint32_t options):
       Window(parent, rect),
       options(options),
       getValue(std::move(getValue))
@@ -44,7 +44,7 @@ class MainViewSlider : public Window
 
   protected:
     uint32_t options = 0;
-    std::function<int8_t()> getValue;
+    std::function<int16_t()> getValue;
     int8_t value = 0;
 };
 
@@ -55,6 +55,6 @@ class MainViewHorizontalSlider : public MainViewSlider
 
     void paint(BitmapBuffer * dc) override
     {
-      drawHorizontalSlider(dc, 0, 0, width(), getValue(), -RESX, RESX, 40, options);
+      drawHorizontalSlider(dc, 0, 0, width(), getValue(), -RESX, RESX, width() / 5, options);
     }
 };
