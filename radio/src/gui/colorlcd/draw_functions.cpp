@@ -50,8 +50,8 @@ void drawVerticalScrollbar(BitmapBuffer * dc, coord_t x, coord_t y, coord_t h, u
 
 void drawTrimSquare(BitmapBuffer * dc, coord_t x, coord_t y)
 {
-  dc->drawSolidFilledRect(x-2, y, 15, 15, TRIM_BGCOLOR);
-  dc->drawBitmapPattern(x-2, y, LBM_TRIM_SHADOW, TRIM_SHADOW_COLOR);
+  dc->drawSolidFilledRect(x, y, 15, 15, TRIM_BGCOLOR);
+  dc->drawBitmapPattern(x, y, LBM_TRIM_SHADOW, TRIM_SHADOW_COLOR);
 }
 
 void drawHorizontalTrimPosition(BitmapBuffer * dc, coord_t x, coord_t y, int16_t dir)
@@ -82,16 +82,16 @@ void drawVerticalTrimPosition(BitmapBuffer * dc, coord_t x, coord_t y, int16_t d
   // }
 }
 
-void drawVerticalSlider(BitmapBuffer * dc, coord_t x, coord_t y, int len, int val, int min, int max, uint8_t steps, uint32_t options)
+void drawVerticalSlider(BitmapBuffer * dc, coord_t x, coord_t y, int height, int val, int min, int max, uint8_t steps, uint32_t options)
 {
   val = limit(min, val, max);
   if (steps) {
-    int delta = len / steps;
-    for (int i = 0; i <= len; i += delta) {
-      if ((options & OPTION_SLIDER_BIG_TICKS) && (i == 0 || i == len / 2 || i == len))
-        dc->drawSolidHorizontalLine(x, y + i, 13, DEFAULT_COLOR);
+    int delta = height / steps;
+    for (int i = 0; i < height; i += delta) {
+      if ((options & OPTION_SLIDER_BIG_TICKS) && ((i == 0) || (i == height / 2) || i == (height - 1)))
+        dc->drawSolidHorizontalLine(x + 2, y + i, 13, DEFAULT_COLOR);
       else
-        dc->drawSolidHorizontalLine(x + 2, y + i, 9, DEFAULT_COLOR);
+        dc->drawSolidHorizontalLine(x + 4, y + i, 9, DEFAULT_COLOR);
     }
   }
   else {
@@ -102,7 +102,7 @@ void drawVerticalSlider(BitmapBuffer * dc, coord_t x, coord_t y, int len, int va
       }
     } */
   }
-  y += len - divRoundClosest(len * (val - min), max - min) - 5;
+  y += height - divRoundClosest(height * (val - min), max - min) - 5;
   if (options & OPTION_SLIDER_TRIM_BUTTON) {
     drawVerticalTrimPosition(dc, x, y - 2, val);
   }

@@ -58,3 +58,25 @@ class MainViewHorizontalSlider : public MainViewSlider
       drawHorizontalSlider(dc, 0, 0, width(), getValue(), -RESX, RESX, width() / 5, options);
     }
 };
+
+class MainView6POS : public MainViewSlider
+{
+  public:
+    using MainViewSlider::MainViewSlider;
+
+    void paint(BitmapBuffer * dc) override
+    {
+      drawHorizontalSlider(dc, 0, 0, width(), getValue(), 1, XPOTS_MULTIPOS_COUNT + 1, XPOTS_MULTIPOS_COUNT, options);
+    }
+};
+
+class MainViewVerticalSlider : public MainViewSlider
+{
+  public:
+    using MainViewSlider::MainViewSlider;
+
+    void paint(BitmapBuffer * dc) override
+    {
+      drawVerticalSlider(dc, 0, 0, height(), getValue(), -RESX, RESX, height() / 5, options);
+    }
+};

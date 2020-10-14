@@ -40,11 +40,15 @@ const ZoneOption OPTIONS_LAYOUT_4P2[] = {
   { NULL, ZoneOption::Bool }
 };
 
+constexpr coord_t HMARGIN = 5;
 constexpr coord_t HTRIM_W = 200;
 constexpr coord_t HTRIM_H = 30;
-constexpr coord_t HMARGIN = 5;
 constexpr coord_t HSLIDER_W = 180;
 constexpr coord_t HSLIDER_H = 20;
+constexpr coord_t VSLIDER_W = 25;
+constexpr coord_t VSLIDER_H = 201;
+constexpr coord_t MULTIPOS_H = 20;
+constexpr coord_t MULTIPOS_W = 60;
 
 class Layout4P2: public Layout
 {
@@ -75,9 +79,32 @@ class Layout4P2: public Layout
 
     void decorate()
     {
-      if (1 /*HAS_SLIDERS()*/) {
-        new MainViewHorizontalSlider(this, {HMARGIN, LCD_H - HSLIDER_H, HSLIDER_W + 1, HSLIDER_H}, [=] { return calibratedAnalogs[CALIBRATED_POT1]; }, OPTION_SLIDER_TICKS | OPTION_SLIDER_BIG_TICKS | OPTION_SLIDER_SQUARE_BUTTON);
-        new MainViewHorizontalSlider(this, {LCD_W - HSLIDER_W - HMARGIN, LCD_H - HSLIDER_H, HSLIDER_W + 1, HSLIDER_H}, [=] { return calibratedAnalogs[CALIBRATED_POT3]; }, OPTION_SLIDER_TICKS | OPTION_SLIDER_BIG_TICKS | OPTION_SLIDER_SQUARE_BUTTON);
+      if (HAS_SLIDERS()) {
+        new MainViewHorizontalSlider(this, {HMARGIN, LCD_H - HSLIDER_H, HSLIDER_W + 1, HSLIDER_H},
+                                     [=] { return calibratedAnalogs[CALIBRATED_POT1]; },OPTION_SLIDER_TICKS | OPTION_SLIDER_BIG_TICKS | OPTION_SLIDER_SQUARE_BUTTON);
+
+        if (IS_POT_MULTIPOS(POT2)) {
+          new MainView6POS(this, {LCD_W / 2 - MULTIPOS_W / 2, LCD_H - MULTIPOS_H, MULTIPOS_W + 1, MULTIPOS_H},
+                                       [=] { return 1 + (potsPos[1] & 0x0f); },OPTION_SLIDER_TICKS | OPTION_SLIDER_BIG_TICKS | OPTION_SLIDER_SQUARE_BUTTON);
+        }
+
+        new MainViewHorizontalSlider(this, {LCD_W - HSLIDER_W - HMARGIN, LCD_H - HSLIDER_H, HSLIDER_W + 1, HSLIDER_H},
+                                     [=] { return calibratedAnalogs[CALIBRATED_POT3]; }, OPTION_SLIDER_TICKS | OPTION_SLIDER_BIG_TICKS | OPTION_SLIDER_SQUARE_BUTTON);
+
+        new MainViewVerticalSlider(this, {HMARGIN, LCD_H /2 - VSLIDER_H / 2, VSLIDER_W + 1, VSLIDER_H},
+                                   [=] { return calibratedAnalogs[CALIBRATED_SLIDER_REAR_LEFT]; },OPTION_SLIDER_TICKS | OPTION_SLIDER_BIG_TICKS | OPTION_SLIDER_SQUARE_BUTTON);
+
+        new MainViewVerticalSlider(this, {LCD_W - VSLIDER_W, LCD_H /2 - VSLIDER_H / 2, VSLIDER_W + 1, VSLIDER_H},
+                                   [=] { return calibratedAnalogs[CALIBRATED_SLIDER_REAR_RIGHT]; },OPTION_SLIDER_TICKS | OPTION_SLIDER_BIG_TICKS | OPTION_SLIDER_SQUARE_BUTTON);
+      }
+
+      if (HAS_FM()) {
+    /*    new DynamicText(this, LCD_W / 2 - getTextWidth(g_model.flightModeData[mixerCurrentFlightMode].name,
+                                                  sizeof(g_model.flightModeData[mixerCurrentFlightMode].name),
+                                                  ZCHAR | SMLSIZE) / 2,
+                         232,
+                         g_model.flightModeData[mixerCurrentFlightMode].name,
+                         sizeof(g_model.flightModeData[mixerCurrentFlightMode].name), ZCHAR | SMLSIZE);*/
       }
     }
 
