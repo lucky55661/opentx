@@ -173,7 +173,7 @@ include(storage/conversions/CMakeLists.txt)
 if(RTC_BACKUP_RAM)
   add_definitions(-DRTC_BACKUP_RAM)
   set(SRC ${SRC} storage/rlc.cpp)
-  set(FIRMWARE_SRC ${FIRMWARE_SRC} storage/rtc_backup.cpp)
+  # set(FIRMWARE_SRC ${FIRMWARE_SRC} storage/rtc_backup.cpp)
   set(GTEST_SRC ${GTEST_SRC} ${RADIO_SRC_DIR}/storage/rtc_backup.cpp)
 endif()
 
