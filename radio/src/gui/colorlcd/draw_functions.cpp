@@ -157,12 +157,12 @@ void drawHorizontalSlider(BitmapBuffer * dc, coord_t x, coord_t y, int width, in
     drawHorizontalTrimPosition(dc, x, y - 1, val);
   }
   else if (options & OPTION_SLIDER_NUMBER_BUTTON) {
-    drawTrimSquare(dc, x+2, y - 1);
+    drawTrimSquare(dc, x + 2, y - 1);
     char text[] = { (char)('0' + val), '\0' };
     dc->drawText(x + 7, y - 1, text, FONT(XS) | CENTERED | FOCUS_COLOR);
   }
   else if (options & OPTION_SLIDER_SQUARE_BUTTON) {
-    drawTrimSquare(dc, x, y - 1);
+    drawTrimSquare(dc, x + 2, y - 1);
   }
   else {
     dc->drawBitmapPattern(x, y + 2, LBM_SLIDER_POINT_OUT, DEFAULT_COLOR);

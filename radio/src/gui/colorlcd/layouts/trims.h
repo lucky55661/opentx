@@ -22,10 +22,10 @@
 
 #include "libopenui.h"
 
-class MainViewSlider : public Window
+class MainViewTrim : public Window
 {
   public:
-    MainViewSlider(Window * parent, const rect_t & rect, std::function<int16_t()> getValue):
+    MainViewTrim(Window * parent, const rect_t & rect, std::function<int16_t()> getValue):
       Window(parent, rect),
       getValue(std::move(getValue))
     {
@@ -46,35 +46,35 @@ class MainViewSlider : public Window
     int8_t value = 0;
 };
 
-class MainViewHorizontalSlider : public MainViewSlider
+class MainViewHorizontalTrim : public MainViewTrim
 {
   public:
-    using MainViewSlider::MainViewSlider;
+    using MainViewTrim::MainViewTrim;
 
     void paint(BitmapBuffer * dc) override
     {
-      drawHorizontalSlider(dc, 0, 0, width(), getValue(), -RESX, RESX, width() / 5, OPTION_SLIDER_TICKS | OPTION_SLIDER_BIG_TICKS | OPTION_SLIDER_SQUARE_BUTTON);
+      drawHorizontalTrim(dc, 0, 0, width(), getValue(), -RESX, RESX, width() / 5, OPTION_SLIDER_TICKS | OPTION_SLIDER_BIG_TICKS | OPTION_SLIDER_SQUARE_BUTTON);
     }
 };
 
-class MainView6POS : public MainViewSlider
+class MainView6POS : public MainViewTrim
 {
   public:
-    using MainViewSlider::MainViewSlider;
+    using MainViewTrim::MainViewTrim;
 
     void paint(BitmapBuffer * dc) override
     {
-      drawHorizontalSlider(dc, 0, 0, width(), getValue(), 1, XPOTS_MULTIPOS_COUNT + 1, XPOTS_MULTIPOS_COUNT, OPTION_SLIDER_TICKS |  OPTION_SLIDER_SQUARE_BUTTON);
+      drawHorizontalTrim(dc, 0, 0, width(), getValue(), 1, XPOTS_MULTIPOS_COUNT + 1, XPOTS_MULTIPOS_COUNT, OPTION_SLIDER_TICKS |  OPTION_SLIDER_SQUARE_BUTTON);
     }
 };
 
-class MainViewVerticalSlider : public MainViewSlider
+class MainViewVerticalTrim : public MainViewTrim
 {
   public:
-    using MainViewSlider::MainViewSlider;
+    using MainViewTrim::MainViewTrim;
 
     void paint(BitmapBuffer * dc) override
     {
-      drawVerticalSlider(dc, 0, 0, height(), getValue(), -RESX, RESX, height() / 5, OPTION_SLIDER_TICKS | OPTION_SLIDER_BIG_TICKS | OPTION_SLIDER_SQUARE_BUTTON);
+      drawVerticalTrim(dc, 0, 0, height(), getValue(), -RESX, RESX, height() / 5, OPTION_SLIDER_TICKS | OPTION_SLIDER_BIG_TICKS | OPTION_SLIDER_SQUARE_BUTTON);
     }
 };

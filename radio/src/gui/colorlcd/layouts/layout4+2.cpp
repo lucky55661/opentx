@@ -20,6 +20,7 @@
 
 #include "opentx.h"
 #include "sliders.h"
+//#include "trims.h"
 
 #define HAS_TOPBAR()      (persistentData->options[0].value.boolValue == true)
 #define HAS_FM()          (persistentData->options[1].value.boolValue == true)
@@ -48,7 +49,9 @@ constexpr coord_t HSLIDER_H = 20;
 constexpr coord_t VSLIDER_W = 25;
 constexpr coord_t VSLIDER_H = 201;
 constexpr coord_t MULTIPOS_H = 20;
-constexpr coord_t MULTIPOS_W = 60;
+constexpr coord_t MULTIPOS_W = 50;
+constexpr coord_t HTRIMS_W = 180;
+constexpr coord_t HTRIMS_H = 20;
 
 class Layout4P2: public Layout
 {
@@ -80,31 +83,34 @@ class Layout4P2: public Layout
     void decorate()
     {
       if (HAS_SLIDERS()) {
+        coord_t yOffset = HAS_TRIMS() ? - HTRIMS_H : 0;
+
         new MainViewHorizontalSlider(this, {HMARGIN, LCD_H - HSLIDER_H, HSLIDER_W + 1, HSLIDER_H},
-                                     [=] { return calibratedAnalogs[CALIBRATED_POT1]; },OPTION_SLIDER_TICKS | OPTION_SLIDER_BIG_TICKS | OPTION_SLIDER_SQUARE_BUTTON);
+                                     [=] { return calibratedAnalogs[CALIBRATED_POT1]; });
 
         if (IS_POT_MULTIPOS(POT2)) {
           new MainView6POS(this, {LCD_W / 2 - MULTIPOS_W / 2, LCD_H - MULTIPOS_H, MULTIPOS_W + 1, MULTIPOS_H},
-                                       [=] { return 1 + (potsPos[1] & 0x0f); },OPTION_SLIDER_TICKS | OPTION_SLIDER_BIG_TICKS | OPTION_SLIDER_SQUARE_BUTTON);
+                                       [=] { return (1 + (potsPos[1] & 0x0f)); });
         }
 
         new MainViewHorizontalSlider(this, {LCD_W - HSLIDER_W - HMARGIN, LCD_H - HSLIDER_H, HSLIDER_W + 1, HSLIDER_H},
-                                     [=] { return calibratedAnalogs[CALIBRATED_POT3]; }, OPTION_SLIDER_TICKS | OPTION_SLIDER_BIG_TICKS | OPTION_SLIDER_SQUARE_BUTTON);
+                                     [=] { return calibratedAnalogs[CALIBRATED_POT3]; });
 
-        new MainViewVerticalSlider(this, {HMARGIN, LCD_H /2 - VSLIDER_H / 2, VSLIDER_W + 1, VSLIDER_H},
-                                   [=] { return calibratedAnalogs[CALIBRATED_SLIDER_REAR_LEFT]; },OPTION_SLIDER_TICKS | OPTION_SLIDER_BIG_TICKS | OPTION_SLIDER_SQUARE_BUTTON);
+        new MainViewVerticalSlider(this, {HMARGIN, LCD_H /2 - VSLIDER_H / 2 + yOffset, VSLIDER_W + 1, VSLIDER_H},
+                                   [=] { return calibratedAnalogs[CALIBRATED_SLIDER_REAR_LEFT]; });
 
-        new MainViewVerticalSlider(this, {LCD_W - VSLIDER_W, LCD_H /2 - VSLIDER_H / 2, VSLIDER_W + 1, VSLIDER_H},
-                                   [=] { return calibratedAnalogs[CALIBRATED_SLIDER_REAR_RIGHT]; },OPTION_SLIDER_TICKS | OPTION_SLIDER_BIG_TICKS | OPTION_SLIDER_SQUARE_BUTTON);
+        new MainViewVerticalSlider(this, {LCD_W - VSLIDER_W, LCD_H /2 - VSLIDER_H / 2 + yOffset, VSLIDER_W + 1, VSLIDER_H},
+                                   [=] { return calibratedAnalogs[CALIBRATED_SLIDER_REAR_RIGHT]; });
       }
 
       if (HAS_FM()) {
-    /*    new DynamicText(this, LCD_W / 2 - getTextWidth(g_model.flightModeData[mixerCurrentFlightMode].name,
-                                                  sizeof(g_model.flightModeData[mixerCurrentFlightMode].name),
-                                                  ZCHAR | SMLSIZE) / 2,
-                         232,
-                         g_model.flightModeData[mixerCurrentFlightMode].name,
-                         sizeof(g_model.flightModeData[mixerCurrentFlightMode].name), ZCHAR | SMLSIZE);*/
+        new DynamicText(this, {50, LCD_H - (HAS_SLIDERS() ? 2 * MULTIPOS_H: MULTIPOS_H), LCD_W - 100, 20}, [=] {
+            return g_model.flightModeData[mixerCurrentFlightMode].name;
+        }, CENTERED);
+      }
+
+      if (HAS_TRIMS()) {
+        coord_t xOffset = HAS_SLIDERS() ? VSLIDER_W : 0;
       }
     }
 
@@ -122,35 +128,19 @@ class Layout4P2: public Layout
       return zone;
     }
 
-    //virtual void refresh();
+    void checkEvents() override
+    {
+      Layout::checkEvents();
+      uint8_t newValue = persistentData->options[4].value.boolValue << 4 | persistentData->options[3].value.boolValue << 3 | persistentData->options[2].value.boolValue << 2
+                                                        | persistentData->options[1].value.boolValue << 1 | persistentData->options[0].value.boolValue;
+      if (value != newValue) {
+        value = newValue;
+        this->clear();
+        decorate();
+      }
+    }
+  protected:
+    uint8_t value = 0;
 };
-
-//void Layout4P2::refresh()
-//{
-  //theme->drawBackground();
-
-  //if (HAS_TOPBAR()) {
-  //  drawTopBar();
-  //}
-  //
-  //if (HAS_FM()) {
-  //  // Flight mode
-  //  lcdDrawSizedText(LCD_W / 2 - getTextWidth(g_model.flightModeData[mixerCurrentFlightMode].name, sizeof(g_model.flightModeData[mixerCurrentFlightMode].name),
-  //                                            ZCHAR | SMLSIZE) / 2, 232, g_model.flightModeData[mixerCurrentFlightMode].name,
-  //                   sizeof(g_model.flightModeData[mixerCurrentFlightMode].name), ZCHAR | SMLSIZE);
-  //}
-  //
-  //if (HAS_SLIDERS()) {
-  //  // Pots and rear sliders positions
-  //  drawMainPots();
-  //}
-  //
-  //if (HAS_TRIMS()) {
-  //  // Trims
-  //  drawTrims(mixerCurrentFlightMode, HAS_SLIDERS());
-  //}
-
-  //Layout::refresh();
-//}
 
 BaseLayoutFactory<Layout4P2> layout4P2("Layout4P2", "4 + 2", LBM_LAYOUT_4P2, OPTIONS_LAYOUT_4P2);
