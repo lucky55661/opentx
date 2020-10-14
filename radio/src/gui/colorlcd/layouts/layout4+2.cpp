@@ -20,7 +20,7 @@
 
 #include "opentx.h"
 #include "sliders.h"
-//#include "trims.h"
+#include "trims.h"
 
 #define HAS_TOPBAR()      (persistentData->options[0].value.boolValue == true)
 #define HAS_FM()          (persistentData->options[1].value.boolValue == true)
@@ -52,6 +52,8 @@ constexpr coord_t MULTIPOS_H = 20;
 constexpr coord_t MULTIPOS_W = 50;
 constexpr coord_t HTRIMS_W = 180;
 constexpr coord_t HTRIMS_H = 20;
+constexpr coord_t VTRIMS_W = 25;
+constexpr coord_t VTRIMS_H = 201;
 
 class Layout4P2: public Layout
 {
@@ -104,13 +106,27 @@ class Layout4P2: public Layout
       }
 
       if (HAS_FM()) {
-        new DynamicText(this, {50, LCD_H - (HAS_SLIDERS() ? 2 * MULTIPOS_H: MULTIPOS_H), LCD_W - 100, 20}, [=] {
+        new DynamicText(this, {50, LCD_H - (HAS_SLIDERS() ? 2 * MULTIPOS_H: MULTIPOS_H + 4), LCD_W - 100, 20}, [=] {
             return g_model.flightModeData[mixerCurrentFlightMode].name;
         }, CENTERED);
       }
 
       if (HAS_TRIMS()) {
         coord_t xOffset = HAS_SLIDERS() ? VSLIDER_W : 0;
+        coord_t yOffset = HAS_SLIDERS() ? - HTRIMS_H : 0;
+
+        new MainViewHorizontalTrim(this, {HMARGIN, LCD_H - HSLIDER_H + yOffset, HSLIDER_W + 1, HSLIDER_H},
+                                 [=] { return getTrimValue(mixerCurrentFlightMode, 0); });
+
+        new MainViewHorizontalTrim(this, {LCD_W - HSLIDER_W - HMARGIN, LCD_H - HSLIDER_H + yOffset, HSLIDER_W + 1, HSLIDER_H},
+                                   [=] { return getTrimValue(mixerCurrentFlightMode, 0); });
+
+
+        new MainViewVerticalTrim(this, {HMARGIN + xOffset, LCD_H /2 - VTRIMS_H / 2 + yOffset, VTRIMS_W + 1, VTRIMS_H},
+                                 [=] { return getTrimValue(mixerCurrentFlightMode, 2); });
+
+        new MainViewVerticalTrim(this, {LCD_W - VTRIMS_W - xOffset, LCD_H /2 - VTRIMS_H / 2 + yOffset, VTRIMS_W + 1, VTRIMS_H},
+                                 [=] { return getTrimValue(mixerCurrentFlightMode, 3); });
       }
     }
 

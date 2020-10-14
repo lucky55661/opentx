@@ -95,7 +95,8 @@ void drawVerticalSlider(BitmapBuffer * dc, coord_t x, coord_t y, int height, int
     }
   }
   else {
-    dc->drawBitmapPattern(x + 1, y, LBM_VTRIM_FRAME, DEFAULT_COLOR);
+    lcdSetColor(GREY);
+    dc->drawSolidFilledRect(x + 4, y, 6, height - 1, CUSTOM_COLOR);
     /* if (g_model.displayTrims != DISPLAY_TRIMS_NEVER && trim != 0) {
       if (g_model.displayTrims == DISPLAY_TRIMS_ALWAYS || (trimsDisplayTimer > 0 && (trimsDisplayMask & (1<<i)))) {
         lcdDrawNumber((stickIndex==0 ? TRIM_LH_X : TRIM_RH_X)+(trim>0 ? -20 : 50), ym+1, trim, TINSIZE);
@@ -131,7 +132,8 @@ void drawHorizontalSlider(BitmapBuffer * dc, coord_t x, coord_t y, int width, in
     }
   }
   else if (options & OPTION_SLIDER_EMPTY_BAR) {
-    dc->drawBitmapPattern(x, y + 1, LBM_HTRIM_FRAME, DEFAULT_COLOR);
+    lcdSetColor(GREY);
+    dc->drawSolidFilledRect(x, y + 4, width - 1, 6, CUSTOM_COLOR);
   }
   else if (options & OPTION_SLIDER_DBL_COLOR) {
     dc->drawBitmapPattern(x, y + 8, LBM_SLIDER_BAR_LEFT, w <= 0 ? LINE_COLOR : FOCUS_BGCOLOR);

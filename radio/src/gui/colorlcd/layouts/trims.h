@@ -53,18 +53,7 @@ class MainViewHorizontalTrim : public MainViewTrim
 
     void paint(BitmapBuffer * dc) override
     {
-      drawHorizontalTrim(dc, 0, 0, width(), getValue(), -RESX, RESX, width() / 5, OPTION_SLIDER_TICKS | OPTION_SLIDER_BIG_TICKS | OPTION_SLIDER_SQUARE_BUTTON);
-    }
-};
-
-class MainView6POS : public MainViewTrim
-{
-  public:
-    using MainViewTrim::MainViewTrim;
-
-    void paint(BitmapBuffer * dc) override
-    {
-      drawHorizontalTrim(dc, 0, 0, width(), getValue(), 1, XPOTS_MULTIPOS_COUNT + 1, XPOTS_MULTIPOS_COUNT, OPTION_SLIDER_TICKS |  OPTION_SLIDER_SQUARE_BUTTON);
+      drawHorizontalSlider(dc, 0, 0, width(), getValue(), -RESX, RESX, 0, OPTION_SLIDER_EMPTY_BAR|OPTION_SLIDER_TRIM_BUTTON);
     }
 };
 
@@ -75,6 +64,11 @@ class MainViewVerticalTrim : public MainViewTrim
 
     void paint(BitmapBuffer * dc) override
     {
-      drawVerticalTrim(dc, 0, 0, height(), getValue(), -RESX, RESX, height() / 5, OPTION_SLIDER_TICKS | OPTION_SLIDER_BIG_TICKS | OPTION_SLIDER_SQUARE_BUTTON);
+      if (g_model.extendedTrims == 1) {
+        drawVerticalSlider(dc, 0, 0, height(), getValue(), TRIM_EXTENDED_MIN, TRIM_EXTENDED_MAX, 0, OPTION_SLIDER_EMPTY_BAR | OPTION_SLIDER_TRIM_BUTTON);
+      }
+      else {
+        drawVerticalSlider(dc, 0, 0, height(), getValue(), TRIM_MIN, TRIM_MAX, 0, OPTION_SLIDER_EMPTY_BAR | OPTION_SLIDER_TRIM_BUTTON);
+      }
     }
 };
