@@ -42,18 +42,10 @@ const ZoneOption OPTIONS_LAYOUT_4P2[] = {
 };
 
 constexpr coord_t HMARGIN = 5;
-constexpr coord_t HTRIM_W = 200;
-constexpr coord_t HTRIM_H = 30;
-constexpr coord_t HSLIDER_W = 180;
-constexpr coord_t HSLIDER_H = 20;
-constexpr coord_t VSLIDER_W = 25;
-constexpr coord_t VSLIDER_H = 201;
+constexpr coord_t HORIZONTAL_SLIDERS_WIDTH = SLIDER_TICKS_COUNT * 4 + TRIM_SQUARE_SIZE;
 constexpr coord_t MULTIPOS_H = 20;
 constexpr coord_t MULTIPOS_W = 50;
-constexpr coord_t HTRIMS_W = 180;
-constexpr coord_t HTRIMS_H = 20;
-constexpr coord_t VTRIMS_W = 25;
-constexpr coord_t VTRIMS_H = 201;
+constexpr coord_t VERTICAL_SLIDERS_HEIGHT = SLIDER_TICKS_COUNT * 5 + TRIM_SQUARE_SIZE;
 
 class Layout4P2: public Layout
 {
@@ -85,9 +77,9 @@ class Layout4P2: public Layout
     void decorate()
     {
       if (HAS_SLIDERS()) {
-        coord_t yOffset = HAS_TRIMS() ? - HTRIMS_H : 0;
+        coord_t yOffset = HAS_TRIMS() ? - TRIM_SQUARE_SIZE : 0;
 
-        new MainViewHorizontalSlider(this, {HMARGIN, LCD_H - HSLIDER_H, HSLIDER_W + 1, HSLIDER_H},
+        new MainViewHorizontalSlider(this, {HMARGIN, LCD_H - TRIM_SQUARE_SIZE, HORIZONTAL_SLIDERS_WIDTH, TRIM_SQUARE_SIZE},
                                      [=] { return calibratedAnalogs[CALIBRATED_POT1]; });
 
         if (IS_POT_MULTIPOS(POT2)) {
@@ -95,13 +87,13 @@ class Layout4P2: public Layout
                                        [=] { return (1 + (potsPos[1] & 0x0f)); });
         }
 
-        new MainViewHorizontalSlider(this, {LCD_W - HSLIDER_W - HMARGIN, LCD_H - HSLIDER_H, HSLIDER_W + 1, HSLIDER_H},
+        new MainViewHorizontalSlider(this, {LCD_W - HORIZONTAL_SLIDERS_WIDTH - HMARGIN, LCD_H - TRIM_SQUARE_SIZE, HORIZONTAL_SLIDERS_WIDTH, TRIM_SQUARE_SIZE},
                                      [=] { return calibratedAnalogs[CALIBRATED_POT3]; });
 
-        new MainViewVerticalSlider(this, {HMARGIN, LCD_H /2 - VSLIDER_H / 2 + yOffset, VSLIDER_W + 1, VSLIDER_H},
+        new MainViewVerticalSlider(this, {HMARGIN, LCD_H /2 - VERTICAL_SLIDERS_HEIGHT / 2 + yOffset, TRIM_SQUARE_SIZE, VERTICAL_SLIDERS_HEIGHT},
                                    [=] { return calibratedAnalogs[CALIBRATED_SLIDER_REAR_LEFT]; });
 
-        new MainViewVerticalSlider(this, {LCD_W - VSLIDER_W, LCD_H /2 - VSLIDER_H / 2 + yOffset, VSLIDER_W + 1, VSLIDER_H},
+        new MainViewVerticalSlider(this, {LCD_W - HMARGIN - TRIM_SQUARE_SIZE, LCD_H /2 - VERTICAL_SLIDERS_HEIGHT / 2 + yOffset, TRIM_SQUARE_SIZE, VERTICAL_SLIDERS_HEIGHT},
                                    [=] { return calibratedAnalogs[CALIBRATED_SLIDER_REAR_RIGHT]; });
       }
 
@@ -112,20 +104,20 @@ class Layout4P2: public Layout
       }
 
       if (HAS_TRIMS()) {
-        coord_t xOffset = HAS_SLIDERS() ? VSLIDER_W : 0;
-        coord_t yOffset = HAS_SLIDERS() ? - HTRIMS_H : 0;
+        coord_t xOffset = HAS_SLIDERS() ? TRIM_SQUARE_SIZE : 0;
+        coord_t yOffset = HAS_SLIDERS() ? - TRIM_SQUARE_SIZE : 0;
 
-        new MainViewHorizontalTrim(this, {HMARGIN, LCD_H - HSLIDER_H + yOffset, HSLIDER_W + 1, HSLIDER_H},
+        new MainViewHorizontalTrim(this, {HMARGIN, LCD_H - TRIM_SQUARE_SIZE + yOffset, HORIZONTAL_SLIDERS_WIDTH, TRIM_SQUARE_SIZE},
                                  [=] { return getTrimValue(mixerCurrentFlightMode, 0); });
 
-        new MainViewHorizontalTrim(this, {LCD_W - HSLIDER_W - HMARGIN, LCD_H - HSLIDER_H + yOffset, HSLIDER_W + 1, HSLIDER_H},
-                                   [=] { return getTrimValue(mixerCurrentFlightMode, 0); });
+        new MainViewHorizontalTrim(this, {LCD_W - HORIZONTAL_SLIDERS_WIDTH - HMARGIN, LCD_H - TRIM_SQUARE_SIZE + yOffset, HORIZONTAL_SLIDERS_WIDTH, TRIM_SQUARE_SIZE},
+                                   [=] { return getTrimValue(mixerCurrentFlightMode, 1); });
 
 
-        new MainViewVerticalTrim(this, {HMARGIN + xOffset, LCD_H /2 - VTRIMS_H / 2 + yOffset, VTRIMS_W + 1, VTRIMS_H},
+        new MainViewVerticalTrim(this, {HMARGIN + xOffset, LCD_H /2 - VERTICAL_SLIDERS_HEIGHT / 2 + yOffset, TRIM_SQUARE_SIZE, VERTICAL_SLIDERS_HEIGHT},
                                  [=] { return getTrimValue(mixerCurrentFlightMode, 2); });
 
-        new MainViewVerticalTrim(this, {LCD_W - VTRIMS_W - xOffset, LCD_H /2 - VTRIMS_H / 2 + yOffset, VTRIMS_W + 1, VTRIMS_H},
+        new MainViewVerticalTrim(this, {LCD_W - HMARGIN - TRIM_SQUARE_SIZE - xOffset, LCD_H /2 - VERTICAL_SLIDERS_HEIGHT / 2 + yOffset, TRIM_SQUARE_SIZE, VERTICAL_SLIDERS_HEIGHT},
                                  [=] { return getTrimValue(mixerCurrentFlightMode, 3); });
       }
     }
@@ -133,7 +125,7 @@ class Layout4P2: public Layout
     rect_t getZone(unsigned int index) const override
     {
       coord_t areaw = LCD_W - (HAS_SLIDERS() ? 55 : 8) - (HAS_TRIMS() ? 55 : 8);
-      coord_t areah = LCD_H - 4 - (HAS_TOPBAR() ? 55 : 8) - (HAS_SLIDERS() ? HSLIDER_H + 4 : 4) - (HAS_TRIMS() ? HTRIM_H + 4 : 4);
+      coord_t areah = LCD_H - 4 - (HAS_TOPBAR() ? 55 : 8) - (HAS_SLIDERS() ? TRIM_SQUARE_SIZE + 4 : 4) - (HAS_TRIMS() ? TRIM_SQUARE_SIZE + 4 : 4);
 
       rect_t zone;
       zone.x = IS_MIRRORED() ? ((index >= 4) ? (LCD_W - areaw) / 2 - 4 : 245) : ((index >= 4) ? 245 : (LCD_W - areaw) / 2 - 4);

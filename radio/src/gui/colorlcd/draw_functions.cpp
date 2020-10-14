@@ -48,9 +48,9 @@ void drawVerticalScrollbar(BitmapBuffer * dc, coord_t x, coord_t y, coord_t h, u
   }
 }
 
-void drawTrimSquare(BitmapBuffer * dc, coord_t x, coord_t y)
+void drawTrimSquare(BitmapBuffer * dc, coord_t x, coord_t y, LcdFlags color)
 {
-  dc->drawSolidFilledRect(x, y, 15, 15, TRIM_BGCOLOR);
+  dc->drawSolidFilledRect(x, y, 15, 15, color);
   dc->drawBitmapPattern(x, y, LBM_TRIM_SHADOW, TRIM_SHADOW_COLOR);
 }
 
@@ -65,20 +65,6 @@ void drawHorizontalTrimPosition(BitmapBuffer * dc, coord_t x, coord_t y, int16_t
   }
   // if (exttrim) {
   //  lcdDrawSolidVerticalLine(xm, ym, 9, FOCUS_COLOR);
-  // }
-}
-
-void drawVerticalTrimPosition(BitmapBuffer * dc, coord_t x, coord_t y, int16_t dir)
-{
-  drawTrimSquare(dc, x, y);
-  if (dir >= 0) {
-    dc->drawSolidHorizontalLine(x+1, y+4, 9, FOCUS_COLOR);
-  }
-  if (dir <= 0) {
-    dc->drawSolidHorizontalLine(x+1, y+10, 9, FOCUS_COLOR);
-  }
-  // if (exttrim) {
-  //   lcdDrawSolidHorizontalLine(xm-1, ym,  3, FOCUS_COLOR);
   // }
 }
 
@@ -105,14 +91,14 @@ void drawVerticalSlider(BitmapBuffer * dc, coord_t x, coord_t y, int height, int
   }
   y += height - divRoundClosest(height * (val - min), max - min) - 5;
   if (options & OPTION_SLIDER_TRIM_BUTTON) {
-    drawVerticalTrimPosition(dc, x, y - 2, val);
+    // drawVerticalTrimPosition(dc, x, y - 2, val);
   }
   else if (options & OPTION_SLIDER_NUMBER_BUTTON) {
-    drawTrimSquare(dc, x, y - 2);
+    // drawTrimSquare(dc, x, y - 2);
     // TODO lcdDrawChar(x + 2, y - 1, '0' + val, FONT(XS) | FOCUS_COLOR);
   }
   else {
-    drawTrimSquare(dc, x, y - 2);
+    // drawTrimSquare(dc, x, y - 2);
   }
 }
 

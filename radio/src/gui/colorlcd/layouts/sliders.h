@@ -21,6 +21,9 @@
 #pragma once
 
 #include "libopenui.h"
+#include "trims.h"
+
+constexpr uint8_t SLIDER_TICKS_COUNT = 40;
 
 class MainViewSlider : public Window
 {
@@ -53,7 +56,21 @@ class MainViewHorizontalSlider : public MainViewSlider
 
     void paint(BitmapBuffer * dc) override
     {
-      drawHorizontalSlider(dc, 0, 0, width(), getValue(), -RESX, RESX, width() / 5, OPTION_SLIDER_TICKS | OPTION_SLIDER_BIG_TICKS | OPTION_SLIDER_SQUARE_BUTTON);
+      // The ticks
+      int delta = (width() - TRIM_SQUARE_SIZE) / SLIDER_TICKS_COUNT;
+      coord_t x = TRIM_SQUARE_SIZE / 2;
+      for (uint8_t i = 0; i <= SLIDER_TICKS_COUNT; i++) {
+        if (i == 0 || i == SLIDER_TICKS_COUNT / 2 || i == SLIDER_TICKS_COUNT)
+          dc->drawSolidVerticalLine(x, 2, 13, DEFAULT_COLOR);
+        else
+          dc->drawSolidVerticalLine(x, 4, 9, DEFAULT_COLOR);
+        x += delta;
+      }
+
+      // The square
+      auto value = getValue();
+      x = width() - TRIM_SQUARE_SIZE - divRoundClosest((width() - TRIM_SQUARE_SIZE) * (value + RESX), 2 * RESX);
+      drawTrimSquare(dc, x, 0, TRIM_BGCOLOR);
     }
 };
 
@@ -75,6 +92,20 @@ class MainViewVerticalSlider : public MainViewSlider
 
     void paint(BitmapBuffer * dc) override
     {
-      drawVerticalSlider(dc, 0, 0, height(), getValue(), -RESX, RESX, height() / 5, OPTION_SLIDER_TICKS | OPTION_SLIDER_BIG_TICKS | OPTION_SLIDER_SQUARE_BUTTON);
+      // The ticks
+      int delta = (height() - TRIM_SQUARE_SIZE) / SLIDER_TICKS_COUNT;
+      coord_t y = TRIM_SQUARE_SIZE / 2;
+      for (uint8_t i = 0; i <= SLIDER_TICKS_COUNT; i++) {
+        if (i == 0 || i == SLIDER_TICKS_COUNT / 2 || i == SLIDER_TICKS_COUNT)
+          dc->drawSolidHorizontalLine(2, y, 13, DEFAULT_COLOR);
+        else
+          dc->drawSolidHorizontalLine(4, y, 9, DEFAULT_COLOR);
+        y += delta;
+      }
+
+      // The square
+      auto value = getValue();
+      y = height() - TRIM_SQUARE_SIZE - divRoundClosest((height() - TRIM_SQUARE_SIZE) * (value + RESX), 2 * RESX);
+      drawTrimSquare(dc, 0, y, TRIM_BGCOLOR);
     }
 };
