@@ -83,7 +83,7 @@ class Layout4P2: public Layout
                                      [=] { return calibratedAnalogs[CALIBRATED_POT1]; });
 
         if (IS_POT_MULTIPOS(POT2)) {
-          new MainView6POS(this, {LCD_W / 2 - MULTIPOS_W / 2, LCD_H - MULTIPOS_H, MULTIPOS_W + 1, MULTIPOS_H},
+          new MainView6POS(this, {LCD_W / 2 - MULTIPOS_W / 2, LCD_H - TRIM_SQUARE_SIZE, MULTIPOS_W + 1, MULTIPOS_H},
                                        [=] { return (1 + (potsPos[1] & 0x0f)); });
         }
 
@@ -98,7 +98,7 @@ class Layout4P2: public Layout
       }
 
       if (HAS_FM()) {
-        new DynamicText(this, {50, LCD_H - (HAS_SLIDERS() ? 2 * MULTIPOS_H: MULTIPOS_H + 4), LCD_W - 100, 20}, [=] {
+        new DynamicText(this, {50, LCD_H - 4 - (HAS_SLIDERS() ? 2 * TRIM_SQUARE_SIZE: TRIM_SQUARE_SIZE), LCD_W - 100, 20}, [=] {
             return g_model.flightModeData[mixerCurrentFlightMode].name;
         }, CENTERED);
       }
@@ -124,16 +124,16 @@ class Layout4P2: public Layout
 
     rect_t getZone(unsigned int index) const override
     {
-      coord_t areaw = LCD_W - (HAS_SLIDERS() ? 55 : 8) - (HAS_TRIMS() ? 55 : 8);
-      coord_t areah = LCD_H - 4 - (HAS_TOPBAR() ? 55 : 8) - (HAS_SLIDERS() ? TRIM_SQUARE_SIZE + 4 : 4) - (HAS_TRIMS() ? TRIM_SQUARE_SIZE + 4 : 4);
+      coord_t areaw = LCD_W - (HAS_SLIDERS() ? 2 * TRIM_SQUARE_SIZE : 0) - (HAS_TRIMS() ? 2 * TRIM_SQUARE_SIZE : 0) - 10;
+      coord_t areah = LCD_H - (HAS_TOPBAR() ? TOPBAR_HEIGHT : 0) - (HAS_SLIDERS() ? TRIM_SQUARE_SIZE : 0) - (HAS_TRIMS() ? TRIM_SQUARE_SIZE : 0) - 10;
+      areah = 4 * (areah % 4);
 
-      rect_t zone;
-      zone.x = IS_MIRRORED() ? ((index >= 4) ? (LCD_W - areaw) / 2 - 4 : 245) : ((index >= 4) ? 245 : (LCD_W - areaw) / 2 - 4);
-      zone.h = (index >= 4) ?  (areah / 2) :  (areah / 4) - 2;
-      zone.y = (index >= 4) ? (HAS_TOPBAR() ? 52 : 6) + (index == 5 ? zone.h + ((HAS_TRIMS() + HAS_SLIDERS() == 1) ? 8 : 10): 0): (HAS_TOPBAR() ? 52 : 6) + (index % 4) * (zone.h + 6);
-      zone.w = areaw / 2;
-
-      return zone;
+      return {
+        IS_MIRRORED() ? ((index >= 4) ? (LCD_W - areaw) / 2 : 240) : ((index >= 4) ? 240 : (LCD_W - areaw) / 2),
+        zone.y = (index >= 4) ? (HAS_TOPBAR() ? TOPBAR_HEIGHT + 1 : 1) + (index == 5 ? areah / 4 : 0) : (HAS_TOPBAR() ? TOPBAR_HEIGHT + 1 : 1) + (index % 4) * (areah / 4);
+        zone.w = areaw / 2
+        zone.h = (index >= 4) ?  (areah / 2) :  (areah / 4);
+      }
     }
 
     void checkEvents() override
