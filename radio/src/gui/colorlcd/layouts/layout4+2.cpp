@@ -130,10 +130,10 @@ class Layout4P2: public Layout
 
       return {
         IS_MIRRORED() ? ((index >= 4) ? (LCD_W - areaw) / 2 : 240) : ((index >= 4) ? 240 : (LCD_W - areaw) / 2),
-        zone.y = (index >= 4) ? (HAS_TOPBAR() ? TOPBAR_HEIGHT + 1 : 1) + (index == 5 ? areah / 4 : 0) : (HAS_TOPBAR() ? TOPBAR_HEIGHT + 1 : 1) + (index % 4) * (areah / 4);
-        zone.w = areaw / 2
-        zone.h = (index >= 4) ?  (areah / 2) :  (areah / 4);
-      }
+        static_cast<coord_t>((index >= 4) ? (HAS_TOPBAR() ? TOPBAR_HEIGHT + 1 : 1) + (index == 5 ? areah / 4 : 0) : (HAS_TOPBAR() ? TOPBAR_HEIGHT + 1 : 1) + (index % 4) * (areah / 4)),
+        areaw / 2,
+        (index >= 4) ?  (areah / 2) :  (areah / 4);
+      };
     }
 
     void checkEvents() override
