@@ -20,7 +20,7 @@ set(GUI_SRC
   tabsgroup.cpp
   page.cpp
   fab_button.cpp
-  #  topbar.cpp
+  topbar.cpp
   layout.cpp
   widget.cpp
   ${THEMES_SRC}

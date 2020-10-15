@@ -29,17 +29,16 @@
 constexpr coord_t TOPBAR_ZONE_MARGIN = 3;
 constexpr coord_t TOPBAR_HEIGHT = MENU_HEADER_HEIGHT - 2 * TOPBAR_ZONE_MARGIN;
 
-class Topbar: public WidgetsContainer<MAX_TOPBAR_ZONES, MAX_TOPBAR_OPTIONS>
+class TopBar: public WidgetsContainer<MAX_TOPBAR_ZONES, MAX_TOPBAR_OPTIONS>
 {
   public:
-    explicit Topbar(PersistentData * persistentData):
-      WidgetsContainer<MAX_TOPBAR_ZONES, MAX_TOPBAR_OPTIONS>({0, 0, LCD_W, TOPBAR_ZONE_WIDTH}, persistentData)
-    {
-    }
+    explicit TopBar(Window * parent);
 
     unsigned int getZonesCount() const override;
 
     rect_t getZone(unsigned int index) const override;
+
+    void paint(BitmapBuffer * dc) override;
 };
 
 #endif // _TOPBAR_H_

@@ -39,7 +39,7 @@
 #define POTS_LINE_Y                    (LCD_H-20)
 
 Layout * customScreens[MAX_CUSTOM_SCREENS] = { 0, 0, 0, 0, 0 };
-Topbar * topbar;
+TopBar * topbar;
 
 #if 0
 void drawMainPots()

@@ -38,7 +38,7 @@ const ZoneOption OPTIONS_LAYOUT_4P2[] = {
   { STR_SLIDERS, ZoneOption::Bool },
   { STR_TRIMS, ZoneOption::Bool },
   { STR_MIRROR, ZoneOption::Bool },
-  { NULL, ZoneOption::Bool }
+  { nullptr, ZoneOption::Bool }
 };
 
 constexpr coord_t HMARGIN = 5;
@@ -65,61 +65,17 @@ class Layout4P2: public Layout
       persistentData->options[3].value.boolValue = true;
       persistentData->options[4].value.boolValue = false;
       persistentData->options[5].value.boolValue = false;
-
       decorate();
+    }
+
+    void decorate()
+    {
+      Layout::decorate(HAS_TOPBAR(), HAS_SLIDERS(), HAS_TRIMS(), HAS_FM());
     }
 
     unsigned int getZonesCount() const override
     {
       return 6;
-    }
-
-    void decorate()
-    {
-      if (HAS_SLIDERS()) {
-        coord_t yOffset = HAS_TRIMS() ? - TRIM_SQUARE_SIZE : 0;
-
-        new MainViewHorizontalSlider(this, {HMARGIN, LCD_H - TRIM_SQUARE_SIZE, HORIZONTAL_SLIDERS_WIDTH, TRIM_SQUARE_SIZE},
-                                     [=] { return calibratedAnalogs[CALIBRATED_POT1]; });
-
-        if (IS_POT_MULTIPOS(POT2)) {
-          new MainView6POS(this, {LCD_W / 2 - MULTIPOS_W / 2, LCD_H - TRIM_SQUARE_SIZE, MULTIPOS_W + 1, MULTIPOS_H},
-                                       [=] { return (1 + (potsPos[1] & 0x0f)); });
-        }
-
-        new MainViewHorizontalSlider(this, {LCD_W - HORIZONTAL_SLIDERS_WIDTH - HMARGIN, LCD_H - TRIM_SQUARE_SIZE, HORIZONTAL_SLIDERS_WIDTH, TRIM_SQUARE_SIZE},
-                                     [=] { return calibratedAnalogs[CALIBRATED_POT3]; });
-
-        new MainViewVerticalSlider(this, {HMARGIN, LCD_H /2 - VERTICAL_SLIDERS_HEIGHT / 2 + yOffset, TRIM_SQUARE_SIZE, VERTICAL_SLIDERS_HEIGHT},
-                                   [=] { return calibratedAnalogs[CALIBRATED_SLIDER_REAR_LEFT]; });
-
-        new MainViewVerticalSlider(this, {LCD_W - HMARGIN - TRIM_SQUARE_SIZE, LCD_H /2 - VERTICAL_SLIDERS_HEIGHT / 2 + yOffset, TRIM_SQUARE_SIZE, VERTICAL_SLIDERS_HEIGHT},
-                                   [=] { return calibratedAnalogs[CALIBRATED_SLIDER_REAR_RIGHT]; });
-      }
-
-      if (HAS_FM()) {
-        new DynamicText(this, {50, LCD_H - 4 - (HAS_SLIDERS() ? 2 * TRIM_SQUARE_SIZE: TRIM_SQUARE_SIZE), LCD_W - 100, 20}, [=] {
-            return g_model.flightModeData[mixerCurrentFlightMode].name;
-        }, CENTERED);
-      }
-
-      if (HAS_TRIMS()) {
-        coord_t xOffset = HAS_SLIDERS() ? TRIM_SQUARE_SIZE : 0;
-        coord_t yOffset = HAS_SLIDERS() ? - TRIM_SQUARE_SIZE : 0;
-
-        new MainViewHorizontalTrim(this, {HMARGIN, LCD_H - TRIM_SQUARE_SIZE + yOffset, HORIZONTAL_SLIDERS_WIDTH, TRIM_SQUARE_SIZE},
-                                 [=] { return getTrimValue(mixerCurrentFlightMode, 0); });
-
-        new MainViewHorizontalTrim(this, {LCD_W - HORIZONTAL_SLIDERS_WIDTH - HMARGIN, LCD_H - TRIM_SQUARE_SIZE + yOffset, HORIZONTAL_SLIDERS_WIDTH, TRIM_SQUARE_SIZE},
-                                   [=] { return getTrimValue(mixerCurrentFlightMode, 1); });
-
-
-        new MainViewVerticalTrim(this, {HMARGIN + xOffset, LCD_H /2 - VERTICAL_SLIDERS_HEIGHT / 2 + yOffset, TRIM_SQUARE_SIZE, VERTICAL_SLIDERS_HEIGHT},
-                                 [=] { return getTrimValue(mixerCurrentFlightMode, 2); });
-
-        new MainViewVerticalTrim(this, {LCD_W - HMARGIN - TRIM_SQUARE_SIZE - xOffset, LCD_H /2 - VERTICAL_SLIDERS_HEIGHT / 2 + yOffset, TRIM_SQUARE_SIZE, VERTICAL_SLIDERS_HEIGHT},
-                                 [=] { return getTrimValue(mixerCurrentFlightMode, 3); });
-      }
     }
 
     rect_t getZone(unsigned int index) const override
@@ -143,6 +99,7 @@ class Layout4P2: public Layout
                                                         | persistentData->options[1].value.boolValue << 1 | persistentData->options[0].value.boolValue;
       if (value != newValue) {
         value = newValue;
+        // TODO call this from the Layout config window
         this->clear();
         decorate();
       }

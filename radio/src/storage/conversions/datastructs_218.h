@@ -402,7 +402,7 @@ PACK(struct TelemetrySensor_218 {
   });
   #define VIEW_DATA \
     CustomScreenData screenData[MAX_CUSTOM_SCREENS]; \
-    Topbar::PersistentData topbarData; \
+    TopBar::PersistentData topbarData; \
     uint8_t view;
 #elif defined(PCBTARANIS)
   #define VIEW_DATA   uint8_t view;

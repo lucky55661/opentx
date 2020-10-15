@@ -23,6 +23,7 @@
 #include <list>
 #include "widgets_container.h"
 #include "lcd.h"
+#include "topbar.h"
 
 #define MAX_LAYOUT_ZONES               10
 #define MAX_LAYOUT_OPTIONS             10
@@ -45,12 +46,11 @@ class Layout: public WidgetsContainer<MAX_LAYOUT_ZONES, MAX_LAYOUT_OPTIONS>
       return factory;
     }
 
-    virtual void update()
-    {
-    }
+    void decorate(bool topbar, bool sliders, bool trims, bool flightMode);
 
   protected:
     const LayoutFactory * factory;
+    TopBar * topBar = nullptr;
 };
 
 void registerLayout(const LayoutFactory * factory);

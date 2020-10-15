@@ -73,3 +73,56 @@ void loadCustomScreens()
 //    topbar->load();
 //  }
 }
+
+void Layout::decorate(bool topbar, bool sliders, bool trims, bool flightMode)
+{
+  if (topbar) {
+    topBar = new TopBar(this);
+    topBar->load();
+  }
+
+  if (sliders) {
+    coord_t yOffset = trims ? - TRIM_SQUARE_SIZE : 0;
+
+    new MainViewHorizontalSlider(this, {HMARGIN, LCD_H - TRIM_SQUARE_SIZE, HORIZONTAL_SLIDERS_WIDTH, TRIM_SQUARE_SIZE},
+                                 [=] { return calibratedAnalogs[CALIBRATED_POT1]; });
+
+    if (IS_POT_MULTIPOS(POT2)) {
+      new MainView6POS(this, {LCD_W / 2 - MULTIPOS_W / 2, LCD_H - TRIM_SQUARE_SIZE, MULTIPOS_W + 1, MULTIPOS_H},
+                       [=] { return (1 + (potsPos[1] & 0x0f)); });
+    }
+
+    new MainViewHorizontalSlider(this, {LCD_W - HORIZONTAL_SLIDERS_WIDTH - HMARGIN, LCD_H - TRIM_SQUARE_SIZE, HORIZONTAL_SLIDERS_WIDTH, TRIM_SQUARE_SIZE},
+                                 [=] { return calibratedAnalogs[CALIBRATED_POT3]; });
+
+    new MainViewVerticalSlider(this, {HMARGIN, LCD_H / 2 - VERTICAL_SLIDERS_HEIGHT(topbar) / 2 + yOffset, TRIM_SQUARE_SIZE, VERTICAL_SLIDERS_HEIGHT(topbar)},
+                               [=] { return calibratedAnalogs[CALIBRATED_SLIDER_REAR_LEFT]; });
+
+    new MainViewVerticalSlider(this, {LCD_W - HMARGIN - TRIM_SQUARE_SIZE, LCD_H / 2 - VERTICAL_SLIDERS_HEIGHT(topbar) / 2 + yOffset, TRIM_SQUARE_SIZE, VERTICAL_SLIDERS_HEIGHT(topbar)},
+                               [=] { return calibratedAnalogs[CALIBRATED_SLIDER_REAR_RIGHT]; });
+  }
+
+  if (trims) {
+    coord_t xOffset = sliders? TRIM_SQUARE_SIZE : 0;
+    coord_t yOffset = sliders? - TRIM_SQUARE_SIZE : 0;
+
+    new MainViewHorizontalTrim(this, {HMARGIN, LCD_H - TRIM_SQUARE_SIZE + yOffset, HORIZONTAL_SLIDERS_WIDTH, TRIM_SQUARE_SIZE},
+                               [=] { return getTrimValue(mixerCurrentFlightMode, 0); });
+
+    new MainViewHorizontalTrim(this, {LCD_W - HORIZONTAL_SLIDERS_WIDTH - HMARGIN, LCD_H - TRIM_SQUARE_SIZE + yOffset, HORIZONTAL_SLIDERS_WIDTH, TRIM_SQUARE_SIZE},
+                               [=] { return getTrimValue(mixerCurrentFlightMode, 1); });
+
+
+    new MainViewVerticalTrim(this, {HMARGIN + xOffset, LCD_H /2 - VERTICAL_SLIDERS_HEIGHT(topbar) / 2 + yOffset, TRIM_SQUARE_SIZE, VERTICAL_SLIDERS_HEIGHT(topbar)},
+                             [=] { return getTrimValue(mixerCurrentFlightMode, 2); });
+
+    new MainViewVerticalTrim(this, {LCD_W - HMARGIN - TRIM_SQUARE_SIZE - xOffset, LCD_H /2 - VERTICAL_SLIDERS_HEIGHT(topbar) / 2 + yOffset, TRIM_SQUARE_SIZE, VERTICAL_SLIDERS_HEIGHT(topbar)},
+                             [=] { return getTrimValue(mixerCurrentFlightMode, 3); });
+  }
+
+  if (flightMode) {
+    new DynamicText(this, {50, LCD_H - 4 - (sliders? 2 * TRIM_SQUARE_SIZE: TRIM_SQUARE_SIZE), LCD_W - 100, 20}, [=] {
+        return g_model.flightModeData[mixerCurrentFlightMode].name;
+    }, CENTERED);
+  }
+}
