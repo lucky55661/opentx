@@ -81,7 +81,18 @@ class MainView6POS : public MainViewSlider
 
     void paint(BitmapBuffer * dc) override
     {
-      drawHorizontalSlider(dc, 0, 0, width(), getValue(), 1, XPOTS_MULTIPOS_COUNT + 1, XPOTS_MULTIPOS_COUNT, OPTION_SLIDER_TICKS |  OPTION_SLIDER_SQUARE_BUTTON);
+      // The ticks
+      int delta = (width() - TRIM_SQUARE_SIZE) / (XPOTS_MULTIPOS_COUNT - 1);
+      coord_t x = TRIM_SQUARE_SIZE / 2;
+      for (uint8_t i = 0; i <= XPOTS_MULTIPOS_COUNT; i++) {
+        dc->drawSolidVerticalLine(x, 4, 9, DEFAULT_COLOR);
+        x += delta;
+      }
+
+      // The square
+      auto value = getValue();
+      x = width() - TRIM_SQUARE_SIZE - divRoundClosest((width() - TRIM_SQUARE_SIZE) * (value + RESX), 2 * RESX);
+      drawTrimSquare(dc, x, 0, TRIM_BGCOLOR);
     }
 };
 
