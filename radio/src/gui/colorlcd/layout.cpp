@@ -84,7 +84,7 @@ void Layout::decorate(bool topbar, bool sliders, bool trims, bool flightMode)
   }
 
   if (sliders) {
-    coord_t yOffset = trims ? - TRIM_SQUARE_SIZE : 0;
+    coord_t yOffset = (trims ? - TRIM_SQUARE_SIZE : 0) + (topbar ? TOPBAR_HEIGHT : 0);
 
     new MainViewHorizontalSlider(this, {HMARGIN, LCD_H - TRIM_SQUARE_SIZE, HORIZONTAL_SLIDERS_WIDTH, TRIM_SQUARE_SIZE},
                                  [=] { return calibratedAnalogs[CALIBRATED_POT1]; });
@@ -106,7 +106,7 @@ void Layout::decorate(bool topbar, bool sliders, bool trims, bool flightMode)
 
   if (trims) {
     coord_t xOffset = sliders? TRIM_SQUARE_SIZE : 0;
-    coord_t yOffset = sliders? - TRIM_SQUARE_SIZE : 0;
+    coord_t yOffset = (trims ? - TRIM_SQUARE_SIZE : 0) + (topbar ? TOPBAR_HEIGHT : 0);
 
     new MainViewHorizontalTrim(this, {HMARGIN, LCD_H - TRIM_SQUARE_SIZE + yOffset, HORIZONTAL_SLIDERS_WIDTH, TRIM_SQUARE_SIZE},
                                [=] { return getTrimValue(mixerCurrentFlightMode, 0); });
