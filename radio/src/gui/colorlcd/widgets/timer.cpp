@@ -88,7 +88,7 @@ class TimerWidget: public Widget
 
     void checkEvents() override
     {
-      auto newValue =  timersStates[persistentData->options[0].value.unsignedValue].val;
+      auto newValue = timersStates[persistentData->options[0].value.unsignedValue].val;
       if (lastValue != newValue) {
         lastValue = newValue;
         invalidate();

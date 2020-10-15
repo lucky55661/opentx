@@ -25,12 +25,7 @@ set(GUI_SRC
   widget.cpp
   ${THEMES_SRC}
   ${LAYOUTS_SRC}
-#  ${WIDGETS_SRC}
-  widgets/text.cpp
-  widgets/value.cpp
-  widgets/timer.cpp
-  widgets/outputs.cpp
-  widgets/gauge.cpp
+  ${WIDGETS_SRC}
   #  popups.cpp
   draw_functions.cpp
   #  menus.cpp
