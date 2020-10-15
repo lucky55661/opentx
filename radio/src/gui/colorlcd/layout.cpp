@@ -19,6 +19,7 @@
  */
 
 #include "opentx.h"
+#include "view_main.h"
 
 std::list<const LayoutFactory *> & getRegisteredLayouts()
 {
@@ -65,6 +66,8 @@ void loadCustomScreens()
   if (customScreens[0] == nullptr && getRegisteredLayouts().size()) {
     customScreens[0] = getRegisteredLayouts().front()->create(&g_model.screenData[0].layoutData);
   }
+
+  customScreens[g_model.view]->attach(ViewMain::instance);
 
 //  if (topbar) {
 //    topbar->load();
