@@ -28,6 +28,9 @@ set(GUI_SRC
 #  ${WIDGETS_SRC}
   widgets/text.cpp
   widgets/value.cpp
+  widgets/timer.cpp
+  widgets/outputs.cpp
+  widgets/gauge.cpp
   #  popups.cpp
   draw_functions.cpp
   #  menus.cpp

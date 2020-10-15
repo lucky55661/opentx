@@ -96,10 +96,14 @@ class WidgetsContainer: public Window, public WidgetsContainerInterface
         for (unsigned int i = 0; i < count; i++) {
           delete widgets[i];
           if (i == 0) {
-            char name[WIDGET_NAME_LEN + 1] = "Text";
+            char name[WIDGET_NAME_LEN + 1] = "Outputs";
             widgets[i] = loadWidget(name, this, getZone(i), &persistentData->zones[i].widgetData);
           } else if (i == 1) {
-            char name[WIDGET_NAME_LEN + 1] = "Value";
+            char name[WIDGET_NAME_LEN + 1] = "Timer";
+            widgets[i] = loadWidget(name, this, getZone(i), &persistentData->zones[i].widgetData);
+          }
+          else if (i == 2) {
+            char name[WIDGET_NAME_LEN + 1] = "Gauge";
             widgets[i] = loadWidget(name, this, getZone(i), &persistentData->zones[i].widgetData);
           }
           else if (persistentData->zones[i].widgetName[0]) {

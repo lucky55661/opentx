@@ -19,6 +19,7 @@
  */
 
 #include "lcd.h"
+#include "opentx.h"
 
 #if defined(SIMU)
 pixel_t displayBuf[DISPLAY_BUFFER_SIZE];

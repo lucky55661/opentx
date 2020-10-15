@@ -27,18 +27,18 @@ const ZoneOption OPTIONS_THEME_DEFAULT[] = {
   { nullptr, ZoneOption::Bool }
 };
 
-class FrskyTheme: public ThemeBase
+class Theme480: public ThemeBase
 {
   public:
-    FrskyTheme():
-      ThemeBase("FrSky", OPTIONS_THEME_DEFAULT)
+    Theme480():
+      ThemeBase("480", OPTIONS_THEME_DEFAULT)
     {
       loadColors();
     }
 
     void loadColors() const
     {
-      TRACE("Load FrSky theme colors");
+      TRACE("Load Theme480 theme colors");
       lcdColorTable[DEFAULT_COLOR_INDEX] = BLACK;
       lcdColorTable[DEFAULT_BGCOLOR_INDEX] = WHITE;
       lcdColorTable[FOCUS_COLOR_INDEX] = WHITE;
@@ -406,16 +406,16 @@ class FrskyTheme: public ThemeBase
     static BitmapBuffer * currentMenuBackground;
 };
 
-const BitmapBuffer * FrskyTheme::backgroundBitmap = nullptr;
-BitmapBuffer * FrskyTheme::topleftBitmap = nullptr;
-BitmapBuffer * FrskyTheme::iconMask[MENUS_ICONS_COUNT] = { nullptr };
-BitmapBuffer * FrskyTheme::menuIconNormal[MENUS_ICONS_COUNT] = { nullptr };
-BitmapBuffer * FrskyTheme::menuIconSelected[MENUS_ICONS_COUNT] = { nullptr };
-BitmapBuffer * FrskyTheme::currentMenuBackground = nullptr;
+const BitmapBuffer * Theme480::backgroundBitmap = nullptr;
+BitmapBuffer * Theme480::topleftBitmap = nullptr;
+BitmapBuffer * Theme480::iconMask[MENUS_ICONS_COUNT] = { nullptr };
+BitmapBuffer * Theme480::menuIconNormal[MENUS_ICONS_COUNT] = { nullptr };
+BitmapBuffer * Theme480::menuIconSelected[MENUS_ICONS_COUNT] = { nullptr };
+BitmapBuffer * Theme480::currentMenuBackground = nullptr;
 
-FrskyTheme frskyTheme;
+Theme480 Theme480;
 
-#if defined(PCBFRSKY)
-ThemeBase * defaultTheme = &frskyTheme;
-Theme * theme = &frskyTheme;
+#if LCD_W == 480
+ThemeBase * defaultTheme = &Theme480;
+Theme * theme = &Theme480;
 #endif
