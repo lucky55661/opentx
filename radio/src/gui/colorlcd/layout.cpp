@@ -20,6 +20,8 @@
 
 #include "opentx.h"
 #include "view_main.h"
+#include "layouts/trims.h"
+#include "layouts/sliders.h"
 
 std::list<const LayoutFactory *> & getRegisteredLayouts()
 {

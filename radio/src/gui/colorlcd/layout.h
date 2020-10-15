@@ -27,6 +27,8 @@
 
 #define MAX_LAYOUT_ZONES               10
 #define MAX_LAYOUT_OPTIONS             10
+constexpr coord_t TRIM_LINE_WIDTH = 8;
+constexpr coord_t TRIM_SQUARE_SIZE = 17;
 
 class LayoutFactory;
 
@@ -122,5 +124,7 @@ class BaseLayoutFactory: public LayoutFactory
 
 Layout * loadLayout(const char * name, Layout::PersistentData * persistentData);
 void loadCustomScreens();
+
+void drawTrimsAndSliders(Layout::PersistentData * persistentData);
 
 std::list<const LayoutFactory *> & getRegisteredLayouts();

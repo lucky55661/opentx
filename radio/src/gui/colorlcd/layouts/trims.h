@@ -22,9 +22,6 @@
 
 #include "libopenui.h"
 
-constexpr coord_t TRIM_LINE_WIDTH = 8;
-constexpr coord_t TRIM_SQUARE_SIZE = 17;
-
 class MainViewTrim : public Window
 {
   public:
