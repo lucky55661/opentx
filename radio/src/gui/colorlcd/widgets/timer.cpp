@@ -89,14 +89,14 @@ class TimerWidget: public Widget
     void checkEvents() override
     {
       auto newValue =  g_model.timers[persistentData->options[0].value.unsignedValue];
-      if (lastValue.value != newValue.value) {
-        lastValue = newValue;
+      if (lastValue != timersStates[persistentData->options[0].value.unsignedValue].val) {
+        lastValue = timersStates[persistentData->options[0].value.unsignedValue].val;
         invalidate();
       }
     }
 
     static const ZoneOption options[];
-    TimerData lastValue;
+    tmrval_t lastValue;
 };
 
 const ZoneOption TimerWidget::options[] = {
