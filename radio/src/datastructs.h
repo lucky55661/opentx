@@ -553,7 +553,7 @@ PACK(struct CustomScreenData {
 });
 #define CUSTOM_SCREENS_DATA \
   NOBACKUP(CustomScreenData screenData[MAX_CUSTOM_SCREENS]); \
-  NOBACKUP(Topbar::PersistentData topbarData); \
+  NOBACKUP(TopBar::PersistentData topbarData); \
   NOBACKUP(uint8_t view);
 #else
 #define CUSTOM_SCREENS_DATA \
@@ -909,7 +909,7 @@ static inline void check_struct()
   CHKSIZE(ModelHeader, 31);
   CHKSIZE(CurveHeader, 4);
   CHKSIZE(CustomScreenData, 850);
-  CHKSIZE(Topbar::PersistentData, 300);
+  CHKSIZE(TopBar::PersistentData, 300);
 #elif defined(PCBNV14)
   // TODO
 #elif defined(PCBSKY9X)
