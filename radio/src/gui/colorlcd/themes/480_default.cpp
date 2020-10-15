@@ -31,7 +31,7 @@ class Theme480: public ThemeBase
 {
   public:
     Theme480():
-      ThemeBase("480", OPTIONS_THEME_DEFAULT)
+      ThemeBase("480_default", OPTIONS_THEME_DEFAULT)
     {
       loadColors();
     }
