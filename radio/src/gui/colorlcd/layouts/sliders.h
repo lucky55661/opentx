@@ -99,7 +99,6 @@ class MainView6POS : public MainViewSlider
 
       // The square
       auto value = getValue();
-      TRACE("6POS:%d", value);
       x = TRIM_SQUARE_SIZE / 2 + divRoundClosest((width() - TRIM_SQUARE_SIZE) * (value -1) , 6);
       drawTrimSquare(dc, x, 0, TRIM_BGCOLOR);
     }

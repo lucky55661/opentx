@@ -136,7 +136,7 @@ ViewMain::ViewMain(bool icons):
   instance = this;
   focusWindow = this;
 
-#if defined(HARDWARE_TOUCH) && !defined(HARDWARE_KEYS)
+#if defined(HARDWARE_TOUCH) //&& !defined(HARDWARE_KEYS)
   if (icons) {
     new FabButton(this, 50, 100, ICON_MODEL,
                       [=]() -> uint8_t {
