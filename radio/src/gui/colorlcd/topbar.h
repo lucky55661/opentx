@@ -39,6 +39,11 @@ class TopBar: public WidgetsContainer<MAX_TOPBAR_ZONES, MAX_TOPBAR_OPTIONS>
     rect_t getZone(unsigned int index) const override;
 
     void paint(BitmapBuffer * dc) override;
+
+    void checkEvents() override
+    {
+      invalidate();
+    }
 };
 
 #endif // _TOPBAR_H_

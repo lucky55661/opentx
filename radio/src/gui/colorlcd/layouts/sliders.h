@@ -76,7 +76,7 @@ class MainViewHorizontalSlider : public MainViewSlider
       }
 
       // The square
-      auto value = getValue();
+      auto value = - getValue();
       x = width() - TRIM_SQUARE_SIZE - divRoundClosest((width() - TRIM_SQUARE_SIZE) * (value + RESX), 2 * RESX);
       drawTrimSquare(dc, x, 0, TRIM_BGCOLOR);
     }
@@ -99,7 +99,8 @@ class MainView6POS : public MainViewSlider
 
       // The square
       auto value = getValue();
-      x = width() - TRIM_SQUARE_SIZE - divRoundClosest((width() - TRIM_SQUARE_SIZE) * (value + RESX), 2 * RESX);
+      TRACE("6POS:%d", value);
+      x = TRIM_SQUARE_SIZE / 2 + divRoundClosest((width() - TRIM_SQUARE_SIZE) * (value -1) , 6);
       drawTrimSquare(dc, x, 0, TRIM_BGCOLOR);
     }
 };

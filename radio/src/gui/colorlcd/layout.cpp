@@ -84,7 +84,7 @@ void Layout::decorate(bool topbar, bool sliders, bool trims, bool flightMode)
   }
 
   if (sliders) {
-    coord_t yOffset = (trims ? - TRIM_SQUARE_SIZE : 0) + (topbar ? TOPBAR_HEIGHT : 0);
+    coord_t yOffset = (trims ? - TRIM_SQUARE_SIZE : 0) + (topbar ? TOPBAR_HEIGHT / 2 : 0);
 
     new MainViewHorizontalSlider(this, {HMARGIN, LCD_H - TRIM_SQUARE_SIZE, HORIZONTAL_SLIDERS_WIDTH, TRIM_SQUARE_SIZE},
                                  [=] { return calibratedAnalogs[CALIBRATED_POT1]; });
@@ -106,20 +106,24 @@ void Layout::decorate(bool topbar, bool sliders, bool trims, bool flightMode)
 
   if (trims) {
     coord_t xOffset = sliders? TRIM_SQUARE_SIZE : 0;
-    coord_t yOffset = (trims ? - TRIM_SQUARE_SIZE : 0) + (topbar ? TOPBAR_HEIGHT : 0);
+    coord_t yOffset = (trims ? - TRIM_SQUARE_SIZE : 0);
 
+    // Trim order TRIM_LH, TRIM_LV, TRIM_RV, TRIM_RH
+
+    // Left
     new MainViewHorizontalTrim(this, {HMARGIN, LCD_H - TRIM_SQUARE_SIZE + yOffset, HORIZONTAL_SLIDERS_WIDTH, TRIM_SQUARE_SIZE},
                                [=] { return getTrimValue(mixerCurrentFlightMode, 0); });
-
+    // Right
     new MainViewHorizontalTrim(this, {LCD_W - HORIZONTAL_SLIDERS_WIDTH - HMARGIN, LCD_H - TRIM_SQUARE_SIZE + yOffset, HORIZONTAL_SLIDERS_WIDTH, TRIM_SQUARE_SIZE},
-                               [=] { return getTrimValue(mixerCurrentFlightMode, 1); });
+                               [=] { return getTrimValue(mixerCurrentFlightMode, 3); });
 
 
-    new MainViewVerticalTrim(this, {HMARGIN + xOffset, LCD_H /2 - VERTICAL_SLIDERS_HEIGHT(topbar) / 2 + yOffset, TRIM_SQUARE_SIZE, VERTICAL_SLIDERS_HEIGHT(topbar)},
+    // Left
+    new MainViewVerticalTrim(this, {HMARGIN + xOffset, LCD_H /2 - VERTICAL_SLIDERS_HEIGHT(topbar) / 2 + yOffset + (topbar ? TOPBAR_HEIGHT / 2 : 0), TRIM_SQUARE_SIZE, VERTICAL_SLIDERS_HEIGHT(topbar)},
+                             [=] { return getTrimValue(mixerCurrentFlightMode, 1); });
+    // Right
+    new MainViewVerticalTrim(this, {LCD_W - HMARGIN - TRIM_SQUARE_SIZE - xOffset, LCD_H /2 - VERTICAL_SLIDERS_HEIGHT(topbar) / 2 + yOffset + (topbar ? TOPBAR_HEIGHT / 2 : 0), TRIM_SQUARE_SIZE, VERTICAL_SLIDERS_HEIGHT(topbar)},
                              [=] { return getTrimValue(mixerCurrentFlightMode, 2); });
-
-    new MainViewVerticalTrim(this, {LCD_W - HMARGIN - TRIM_SQUARE_SIZE - xOffset, LCD_H /2 - VERTICAL_SLIDERS_HEIGHT(topbar) / 2 + yOffset, TRIM_SQUARE_SIZE, VERTICAL_SLIDERS_HEIGHT(topbar)},
-                             [=] { return getTrimValue(mixerCurrentFlightMode, 3); });
   }
 
   if (flightMode) {
