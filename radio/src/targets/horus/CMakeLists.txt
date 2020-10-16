@@ -86,7 +86,7 @@ if (PCB STREQUAL X10)
     set(SBUS_TRAINER ON)
     set(AUX_SERIAL ON)
     if (NOT BLUETOOTH AND NOT INTERNAL_GPS)
-      set(AUX2_SERIAL OFF) # todo ON
+      set(AUX2_SERIAL ON)
     endif()
     set(INTERNAL_GPS_BAUDRATE "9600" CACHE STRING "Baud rate for internal GPS")
   elseif (PCBREV STREQUAL T18)
