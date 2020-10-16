@@ -139,8 +139,13 @@ void checkTrainerSettings()
       stop_intmodule_heartbeat();
     else
       init_intmodule_heartbeat();
+#else
+#if defined(HARDWARE_EXTERNAL_ACCESS_MOD)
+    if (g_model.moduleData[EXTERNAL_MODULE].type != MODULE_TYPE_R9M_PXX2) // externalaccessmod 'bridges' HB and Ext module RX pins
+      init_intmodule_heartbeat();
 #elif defined(INTMODULE_HEARTBEAT_GPIO)
     init_intmodule_heartbeat();
+#endif
 #endif
   }
 }
