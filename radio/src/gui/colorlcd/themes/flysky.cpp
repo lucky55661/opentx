@@ -342,7 +342,7 @@ class FlyskyTheme: public OpenTxTheme
       }
     }
 
-    void drawTopLeftBitmap(BitmapBuffer * dc) const
+    void drawTopLeftBitmap(BitmapBuffer * dc) const override
     {
       if (topleftBitmap) {
         dc->drawBitmap(0, 0, topleftBitmap);

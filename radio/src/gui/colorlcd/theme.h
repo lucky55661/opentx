@@ -56,7 +56,7 @@ class OpenTxTheme: public Theme
 
     static OpenTxTheme * instance()
     {
-      return OpenTxTheme::instance();
+      return static_cast<OpenTxTheme *>(theme);
     }
 
     inline const char * getName() const

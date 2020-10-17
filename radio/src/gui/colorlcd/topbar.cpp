@@ -58,9 +58,7 @@ void TopBar::paint(BitmapBuffer * dc)
 
   getTimerString(str, getValue(MIXSRC_TX_TIME));
   dc->drawText(DATETIME_MIDDLE, DATETIME_LINE2, str, FONT(XS) | CENTERED | MENU_COLOR);
-//
-//
-//
+
   // USB icon
   if (usbPlugged()) {
     dc->drawBitmapPattern(LCD_W - 98, 8, LBM_TOPMENU_USB, MENU_COLOR);

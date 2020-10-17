@@ -22,7 +22,7 @@
 #include "mainwindow.h"
 #include "opentx.h"
 
-FullScreenDialog::FullScreenDialog(uint8_t type, std::string title, std::string message, std::string action, std::function<void(void)> confirmHandler):
+FullScreenDialog::FullScreenDialog(uint8_t type, std::string title, std::string message, std::string action, const std::function<void(void)> & confirmHandler):
   FormGroup(&mainWindow, {0, 0, LCD_W, LCD_H}, OPAQUE),
   type(type),
   title(std::move(title)),
