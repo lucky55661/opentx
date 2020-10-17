@@ -33,6 +33,7 @@ TabsGroupHeader::TabsGroupHeader(TabsGroup * parent, uint8_t icon):
   back(this, { 0, 0, MENU_HEADER_BUTTON_WIDTH, MENU_HEADER_BUTTON_WIDTH }, ICON_BACK,
        [=]() -> uint8_t {
          parent->deleteLater();
+         ViewMain::instance->setFocus((SET_FOCUS_DEFAULT));
          return 1;
        }, NO_FOCUS),
 #endif

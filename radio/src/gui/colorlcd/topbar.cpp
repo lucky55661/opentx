@@ -45,7 +45,7 @@ const char * const STR_MONTHS[] = TR_MONTHS;
 
 void TopBar::paint(BitmapBuffer * dc)
 {
-//  if (static_cast<ThemeBase *>(theme)->topleftBitmap) {
+//  if (topleftBitmap) {
 //    dc->drawBitmap(0, 0, static_cast<ThemeBase *>(theme)->topleftBitmap);
 //    uint16_t width = topleftBitmap->getWidth();
 //    lcd->drawSolidFilledRect(width, 0, LCD_W-width, MENU_HEADER_HEIGHT, HEADER_BGCOLOR);
@@ -54,7 +54,7 @@ void TopBar::paint(BitmapBuffer * dc)
    dc->drawSolidFilledRect(0, 0, width(), height(), HEADER_BGCOLOR);
 //  }
 
-//  dc->drawBitmap(4, 10, menuIconSelected[ICON_OPENTX]);
+// dc->drawBitmap(4, 10, menuIconSelected[ICON_OPENTX]);
 //
   dc->drawSolidVerticalLine(DATETIME_SEPARATOR_X, 7, 31, MENU_COLOR);
 

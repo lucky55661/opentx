@@ -29,7 +29,7 @@ FullScreenDialog::FullScreenDialog(uint8_t type, std::string title, std::string 
   message(std::move(message)),
   action(std::move(action)),
   confirmHandler(confirmHandler)
-#if !defined(HARDWARE_TOUCH)
+#if defined(HARDWARE_KEYS)
   , previousFocus(focusWindow)
 #endif
 {
@@ -115,7 +115,7 @@ void FullScreenDialog::checkEvents()
 
 void FullScreenDialog::deleteLater()
 {
-#if !defined(HARDWARE_TOUCH)
+#if defined(HARDWARE_KEYS)
   if (previousFocus) {
     previousFocus->setFocus(SET_FOCUS_DEFAULT);
   }

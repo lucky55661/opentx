@@ -134,9 +134,8 @@ ViewMain::ViewMain(bool icons):
   FormWindow(&mainWindow, { 0, 0, LCD_W, LCD_H })
 {
   instance = this;
-  focusWindow = this;
 
-#if defined(HARDWARE_TOUCH) //&& !defined(HARDWARE_KEYS)
+#if defined(HARDWARE_TOUCH) && !defined(HARDWARE_KEYS)
   if (icons) {
     new FabButton(this, 50, 100, ICON_MODEL,
                       [=]() -> uint8_t {
@@ -162,6 +161,8 @@ ViewMain::ViewMain(bool icons):
                      openMenu();
                      return 0;
                  }, NO_FOCUS);
+
+  focusWindow = this;
 #endif
 }
 
@@ -238,14 +239,12 @@ void ViewMain::openMenu()
 
 void ViewMain::checkEvents()
 {
-  Window::checkEvents();
+  FormWindow::checkEvents();
 }
 
 void ViewMain::paint(BitmapBuffer * dc)
 {
   static_cast<ThemeBase *>(theme)->drawBackground(dc);
-
-//  drawMainPots();
 
   if (g_model.view >= getMainViewsCount()) {
     g_model.view = 0;
