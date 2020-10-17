@@ -342,6 +342,15 @@ class FlyskyTheme: public ThemeBase
       }
     }
 
+    void drawTopLeftBitmap(BitmapBuffer * dc) const
+    {
+      if (topleftBitmap) {
+        dc->drawBitmap(0, 0, topleftBitmap);
+        uint16_t width = topleftBitmap->width();
+        dc->drawSolidFilledRect(width, 0, LCD_W - width, MENU_HEADER_HEIGHT, MENU_BGCOLOR);
+      }
+    }
+
     void drawMenuBackground(BitmapBuffer * dc, uint8_t icon, const char * title) const override
     {
 //      if (topleftBitmap) {

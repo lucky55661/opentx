@@ -45,23 +45,15 @@ const char * const STR_MONTHS[] = TR_MONTHS;
 
 void TopBar::paint(BitmapBuffer * dc)
 {
-//  if (topleftBitmap) {
-//    dc->drawBitmap(0, 0, static_cast<ThemeBase *>(theme)->topleftBitmap);
-//    uint16_t width = topleftBitmap->getWidth();
-//    lcd->drawSolidFilledRect(width, 0, LCD_W-width, MENU_HEADER_HEIGHT, HEADER_BGCOLOR);
-//  }
-//  else {
-   dc->drawSolidFilledRect(0, 0, width(), height(), HEADER_BGCOLOR);
-//  }
-
-// dc->drawBitmap(4, 10, menuIconSelected[ICON_OPENTX]);
-//
-  dc->drawSolidVerticalLine(DATETIME_SEPARATOR_X, 7, 31, MENU_COLOR);
+  dc->drawSolidFilledRect(0, 0, width(), height(), MENU_BGCOLOR);
+  theme->drawTopLeftBitmap(dc);
 
   struct gtm t;
   gettime(&t);
   char str[10];
+
   sprintf(str, "%d %s", t.tm_mday, STR_MONTHS[t.tm_mon]);
+  dc->drawSolidVerticalLine(DATETIME_SEPARATOR_X, 7, 31, MENU_COLOR);
   dc->drawText(DATETIME_MIDDLE, DATETIME_LINE1, str, FONT(XS) | CENTERED| MENU_COLOR);
 
   getTimerString(str, getValue(MIXSRC_TX_TIME));

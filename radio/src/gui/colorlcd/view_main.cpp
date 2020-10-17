@@ -240,6 +240,7 @@ void ViewMain::openMenu()
 void ViewMain::checkEvents()
 {
   FormWindow::checkEvents();
+  TRACE("focus = %s", focusWindow ? focusWindow->getWindowDebugString().c_str() : "---");
 }
 
 void ViewMain::paint(BitmapBuffer * dc)
