@@ -244,7 +244,7 @@ void ViewMain::checkEvents()
 
 void ViewMain::paint(BitmapBuffer * dc)
 {
-  static_cast<ThemeBase *>(theme)->drawBackground(dc);
+  OpenTxTheme::instance()->drawBackground(dc);
 
   if (g_model.view >= getMainViewsCount()) {
     g_model.view = 0;

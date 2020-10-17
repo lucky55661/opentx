@@ -52,7 +52,7 @@ TabsGroupHeader::~TabsGroupHeader()
 
 void TabsGroupHeader::paint(BitmapBuffer * dc)
 {
-  static_cast<ThemeBase *>(theme)->drawMenuBackground(dc, icon, title);
+  OpenTxTheme::instance()->drawMenuBackground(dc, icon, title);
 }
 
 TabsCarousel::TabsCarousel(Window * parent, TabsGroup * menu):
@@ -68,7 +68,7 @@ void TabsCarousel::updateInnerWidth()
 
 void TabsCarousel::paint(BitmapBuffer * dc)
 {
-  static_cast<ThemeBase *>(theme)->drawMenuHeader(dc, menu->tabs, currentIndex);
+  OpenTxTheme::instance()->drawMenuHeader(dc, menu->tabs, currentIndex);
 }
 
 #if defined(HARDWARE_TOUCH)

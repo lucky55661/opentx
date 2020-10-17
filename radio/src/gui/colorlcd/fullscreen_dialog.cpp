@@ -47,16 +47,16 @@ FullScreenDialog::FullScreenDialog(uint8_t type, std::string title, std::string 
 
 void FullScreenDialog::paint(BitmapBuffer * dc)
 {
-  static_cast<ThemeBase *>(theme)->drawBackground(dc);
+  OpenTxTheme::instance()->drawBackground(dc);
 
   dc->drawFilledRect(0, ALERT_FRAME_TOP, LCD_W, ALERT_FRAME_HEIGHT, SOLID, FOCUS_COLOR | OPACITY(8));
 
   if (type == WARNING_TYPE_ALERT || type == WARNING_TYPE_ASTERISK)
-    dc->drawBitmap(ALERT_BITMAP_LEFT, ALERT_BITMAP_TOP, static_cast<ThemeBase *>(theme)->asterisk);
+    dc->drawBitmap(ALERT_BITMAP_LEFT, ALERT_BITMAP_TOP, OpenTxTheme::instance()->asterisk);
   else if (type == WARNING_TYPE_INFO)
-    dc->drawBitmap(ALERT_BITMAP_LEFT, ALERT_BITMAP_TOP, static_cast<ThemeBase *>(theme)->busy);
+    dc->drawBitmap(ALERT_BITMAP_LEFT, ALERT_BITMAP_TOP, OpenTxTheme::instance()->busy);
   else // confirmation
-    dc->drawBitmap(ALERT_BITMAP_LEFT, ALERT_BITMAP_TOP, static_cast<ThemeBase *>(theme)->question);
+    dc->drawBitmap(ALERT_BITMAP_LEFT, ALERT_BITMAP_TOP, OpenTxTheme::instance()->question);
 
   if (type == WARNING_TYPE_ALERT) {
 #if defined(TRANSLATIONS_FR) || defined(TRANSLATIONS_IT) || defined(TRANSLATIONS_CZ)

@@ -27,11 +27,11 @@ const ZoneOption OPTIONS_THEME_DEFAULT[] = {
   { nullptr, ZoneOption::Bool }
 };
 
-class Theme480: public ThemeBase
+class Theme480: public OpenTxTheme
 {
   public:
     Theme480():
-      ThemeBase("480_default", OPTIONS_THEME_DEFAULT)
+      OpenTxTheme("480_default", OPTIONS_THEME_DEFAULT)
     {
       loadColors();
     }
@@ -279,7 +279,7 @@ class Theme480: public ThemeBase
     void load() const override
     {
       loadColors();
-      ThemeBase::load();
+      OpenTxTheme::load();
       if (!backgroundBitmap) {
         backgroundBitmap = BitmapBuffer::loadBitmap(getFilePath("background.png"));
       }
@@ -424,6 +424,6 @@ BitmapBuffer * Theme480::currentMenuBackground = nullptr;
 Theme480 Theme480;
 
 #if LCD_W == 480
-ThemeBase * defaultTheme = &Theme480;
+OpenTxTheme * defaultTheme = &Theme480;
 Theme * theme = &Theme480;
 #endif
