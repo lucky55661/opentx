@@ -248,6 +248,29 @@ void RadioHardwarePage::build(FormWindow * window)
   }
 #endif
 
+#if defined(AUX_SERIAL)
+  new StaticText(window, grid.getLabelSlot(), STR_AUX_SERIAL_MODE);
+  auto aux = new Choice(window, grid.getFieldSlot(1,0), STR_AUX_SERIAL_MODES, 0, UART_MODE_MAX, GET_SET_DEFAULT(g_eeGeneral.auxSerialMode));
+  aux->setAvailableHandler([=](int value) {
+      return isAuxModeAvailable;
+  });
+  grid.nextLine();
+#endif
+
+#if defined(AUX2_SERIAL)
+  new StaticText(window, grid.getLabelSlot(), STR_AUX2_SERIAL_MODE);
+  auto aux2 = new Choice(window, grid.getFieldSlot(1,0), STR_AUX_SERIAL_MODES, 0, UART_MODE_MAX, GET_SET_DEFAULT(g_eeGeneral.aux2SerialMode));
+  aux2->setAvailableHandler([=](int value) {
+      return isAux2ModeAvailable;
+  });
+  grid.nextLine();
+#endif
+
+#if defined(AUX_SERIAL) || defined(AUX2_SERIAL)
+  new StaticText(window, grid.getFieldSlot(1,0), STR_TTL_WARNING, 0, ALARM_COLOR);
+  grid.nextLine();
+#endif
+
   // ADC filter
   new StaticText(window, grid.getLabelSlot(), STR_JITTER_FILTER);
   new CheckBox(window, grid.getFieldSlot(), GET_SET_INVERTED(g_eeGeneral.jitterFilter));

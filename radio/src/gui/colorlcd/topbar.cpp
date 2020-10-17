@@ -149,5 +149,4 @@ void TopBar::paint(BitmapBuffer * dc)
     }
   }
 #endif
-
 }

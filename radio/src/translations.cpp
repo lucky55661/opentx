@@ -394,6 +394,7 @@ const char STR_CPU_MAH[] = TR_CPU_MAH;
 const char STR_COPROC[] = TR_COPROC;
 const char STR_COPROC_TEMP[] = TR_COPROC_TEMP;
 const char STR_TEMPWARNING[] = TR_TEMPWARNING;
+const char STR_TTL_WARNING[]  = TR_TTL_WARNING;
 const char STR_CAPAWARNING[] = TR_CAPAWARNING;
 const char STR_FUNC[] = TR_FUNC;
 const char STR_V1[] = TR_V1;

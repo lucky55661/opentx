@@ -606,6 +606,7 @@ extern const char STR_COPROC[];
 extern const char STR_COPROC_TEMP[];
 extern const char STR_CAPAWARNING[];
 extern const char STR_TEMPWARNING[];
+extern const char STR_TTL_WARNING[];
 extern const char STR_FUNC[];
 extern const char STR_V1[];
 extern const char STR_V2[];
