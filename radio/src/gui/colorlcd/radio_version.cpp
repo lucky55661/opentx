@@ -41,7 +41,7 @@ class OptionsText: public StaticText {
 
     void paint(BitmapBuffer * dc) override
     {
-      coord_t y = 0;
+      coord_t y = 2;
       coord_t x = 0;
       for (uint8_t i = 0; options[i]; i++) {
         const char * option = options[i];
@@ -66,12 +66,14 @@ RadioVersionPage::RadioVersionPage():
 void RadioVersionPage::build(FormWindow * window)
 {
   FormGridLayout grid;
-  grid.setLabelWidth(120);
+  grid.setLabelWidth(60);
   grid.spacer(PAGE_PADDING);
 
-  new StaticText(window, grid.getLabelSlot(), "FW Version");
+  // Radio type
+  new StaticText(window, grid.getLineSlot(), fw_stamp);
+  grid.nextLine();
 #if LCD_W > LCD_H
-  new StaticText(window, grid.getFieldSlot(), vers_stamp);
+  new StaticText(window, grid.getLineSlot(), vers_stamp);
 #else
   memcpy(reusableBuffer.version.id, vers_stamp, strcspn(vers_stamp, " "));
   new StaticText(window, grid.getFieldSlot(), reusableBuffer.version.id);
@@ -82,30 +84,24 @@ void RadioVersionPage::build(FormWindow * window)
 #endif
   grid.nextLine();
 
-  new StaticText(window, grid.getLabelSlot(), "FW Options");
-  auto firmwareOptions = new OptionsText(window, grid.getFieldSlot());
-  grid.spacer(firmwareOptions->height() + PAGE_LINE_SPACING);
-
-  new StaticText(window, grid.getLabelSlot(), "FW Date");
-  new StaticText(window, grid.getFieldSlot(), date_stamp);
+  // Firmware date
+  new StaticText(window, grid.getLineSlot(), date_stamp);
   grid.nextLine();
 
-  new StaticText(window, grid.getLabelSlot(), "FW Time");
-  new StaticText(window, grid.getFieldSlot(), time_stamp);
+  // Firmware time
+  new StaticText(window, grid.getLineSlot(), time_stamp);
   grid.nextLine();
 
-  new StaticText(window, grid.getLabelSlot(), "Data version");
-  new StaticText(window, grid.getFieldSlot(), eeprom_stamp);
+  // EEprom version
+  new StaticText(window, grid.getLineSlot(), eeprom_stamp);
   grid.nextLine();
 
-  getCPUUniqueID(reusableBuffer.version.id);
-  new StaticText(window, grid.getLabelSlot(), "CPU UID");
-#if LCD_W > LCD_H
-  new StaticText(window, grid.getFieldSlot(), reusableBuffer.version.id);
-#else
-  grid.nextLine();
-  new StaticText(window, {PAGE_PADDING, static_cast<coord_t>(grid.getWindowHeight() + PAGE_LINE_SPACING), static_cast<coord_t>(window->width() - PAGE_PADDING),
-                          PAGE_LINE_HEIGHT}, reusableBuffer.version.id);
+  // Firmware options
+  new StaticText(window, grid.getLabelSlot(), "OPTS:");
+  auto options = new OptionsText(window, grid.getFieldSlot(1,0));
+  grid.nextLine(options->height() + 4);
+
+#if 1
+  auto versions = new TextButton(window, grid.getLineSlot(), STR_MODULES_RX_VERSION);
 #endif
-  grid.nextLine();
 }
