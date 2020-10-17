@@ -46,7 +46,7 @@ const char * const STR_MONTHS[] = TR_MONTHS;
 void TopBar::paint(BitmapBuffer * dc)
 {
   dc->drawSolidFilledRect(0, 0, width(), height(), MENU_BGCOLOR);
-  theme->drawTopLeftBitmap(dc);
+  OpenTxTheme::instance()->drawTopLeftBitmap(dc);
 
   struct gtm t;
   gettime(&t);

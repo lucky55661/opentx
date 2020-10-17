@@ -30,7 +30,7 @@ class ViewMain: public FormWindow {
     ~ViewMain() override;
 
 #if defined(DEBUG_WINDOWS)
-    virtual std::string getName()
+    std::string getName() const override
     {
       return "ViewMain";
     }

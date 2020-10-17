@@ -46,7 +46,7 @@ class ModelBitmapWidget: public Widget
         BitmapBuffer * bitmap = BitmapBuffer::loadBitmap(filename);
         if (rect.h >= 96 && rect.w >= 120) {
           buffer->drawFilledRect(0, 0, rect.w, rect.h, SOLID, MAINVIEW_PANES_COLOR | OPACITY(5));
-          static BitmapBuffer * icon = BitmapBuffer::loadMask(static_cast<ThemeBase *>(theme)->getFilePath("mask_menu_model.png"));
+          static BitmapBuffer * icon = BitmapBuffer::loadMask(OpenTxTheme::instance()->getFilePath("mask_menu_model.png"));
           buffer->drawMask(6, 4, icon, MAINVIEW_GRAPHICS_COLOR);
           buffer->drawSizedText(45, 10, g_model.header.name, LEN_MODEL_NAME, FONT(XS));
           buffer->drawSolidFilledRect(39, 27, rect.w - 48, 2, MAINVIEW_GRAPHICS_COLOR);

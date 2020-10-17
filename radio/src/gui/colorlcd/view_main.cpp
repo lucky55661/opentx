@@ -161,9 +161,8 @@ ViewMain::ViewMain(bool icons):
                      openMenu();
                      return 0;
                  }, NO_FOCUS);
-
-  focusWindow = this;
 #endif
+  focusWindow = this;
 }
 
 ViewMain::~ViewMain()

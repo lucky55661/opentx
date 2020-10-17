@@ -44,7 +44,7 @@ PageHeader::~PageHeader()
 
 void PageHeader::paint(BitmapBuffer * dc)
 {
-  static_cast<ThemeBase *>(theme)->drawMenuBackground(dc, getIcon(), "");
+  OpenTxTheme::instance()->drawMenuBackground(dc, getIcon(), "");
   dc->drawSolidFilledRect(MENU_HEADER_HEIGHT, 0, LCD_W - MENU_HEADER_HEIGHT, MENU_HEADER_HEIGHT, MENU_BGCOLOR);
 }
 

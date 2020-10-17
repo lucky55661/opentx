@@ -185,7 +185,7 @@ void drawSleepBitmap()
   lcd->reset();
   lcd->clear();
 
-  const BitmapBuffer * bitmap = BitmapBuffer::loadBitmap(static_cast<ThemeBase *>(theme)->getFilePath("sleep.bmp"));
+  const BitmapBuffer * bitmap = BitmapBuffer::loadBitmap(OpenTxTheme::instance()->getFilePath("sleep.bmp"));
   if (bitmap) {
     lcd->drawBitmap((LCD_W-bitmap->width())/2, (LCD_H-bitmap->height())/2, bitmap);
     delete bitmap;
@@ -200,13 +200,13 @@ void drawShutdownAnimation(uint32_t duration, uint32_t totalDuration, const char
   if (totalDuration == 0)
     return;
 
-  static const BitmapBuffer * shutdown = BitmapBuffer::loadBitmap(static_cast<ThemeBase *>(theme)->getFilePath("shutdown.bmp"));
+  static const BitmapBuffer * shutdown = BitmapBuffer::loadBitmap(OpenTxTheme::instance()->getFilePath("shutdown.bmp"));
 
   lcdNextLayer();
   lcd->reset();
 
   if (shutdown) {
-    static_cast<ThemeBase *>(theme)->drawBackground(lcd);
+    OpenTxTheme::instance()->drawBackground(lcd);
     lcd->drawBitmap((LCD_W - shutdown->width()) / 2, (LCD_H - shutdown->height()) / 2, shutdown);
     int quarter = duration / (totalDuration / 5);
     if (quarter >= 1) lcd->drawBitmapPattern(LCD_W/2,                            (LCD_H-SHUTDOWN_CIRCLE_DIAMETER)/2, LBM_SHUTDOWN_CIRCLE, DEFAULT_COLOR, 0, SHUTDOWN_CIRCLE_DIAMETER/2);
